@@ -53,25 +53,27 @@ const OutputGeneration: FC<OutputGenerationProps> = ({
               <LuLoader className='animate-[spin_3s_linear_infinite] m-auto' size={24} />
             ) : generation ? (
               generation.image_urls?.map((url, index) => (
-                <div key={index} className='group relative'>
-                  <Image
-                    src={url}
-                    alt=''
-                    width={260}
-                    height={260}
-                    className='border rounded-md mx-auto'
-                    placeholder='blur'
-                    blurDataURL={blurImageDataUrl}
-                  />
-                  {/* Hover Effect */}
-                  <div className='absolute inset-0 bg-black/30 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-auto cursor-pointer'>
-                    <Button
-                      variant='outline'
-                      onClick={() => downloadQrCode(url!, 'interior.png')}
-                      className='rounded-full'>
-                      <TbDownload className='mr-2' />
-                      Download
-                    </Button>
+                <div className=''>
+                  <div key={index} className='group relative'>
+                    <Image
+                      src={url}
+                      alt=''
+                      width={260}
+                      height={260}
+                      className='border rounded-md mx-auto'
+                      placeholder='blur'
+                      blurDataURL={blurImageDataUrl}
+                    />
+                    {/* Hover Effect */}
+                    <div className='absolute inset-0 bg-black/30 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-auto cursor-pointer'>
+                      <Button
+                        variant='outline'
+                        onClick={() => downloadQrCode(url!, 'interior.png')}
+                        className='rounded-full'>
+                        <TbDownload className='mr-2' />
+                        Download
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))

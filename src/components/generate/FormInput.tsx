@@ -9,10 +9,7 @@ import { toast } from '../ui/use-toast';
 import { generateImageFn } from '@/app/(main)/generate/actions';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { useDropzone } from 'react-dropzone';
 import InputWrapper from '../InputWrapper';
-import { cn } from '@/utils/utils';
-import Image from 'next/image';
 import UploadReferenceImage from './UploadReferenceImage';
 
 type FormInputProps = {
@@ -24,7 +21,6 @@ type FormFields = {
   'neg-prompt': string;
   'no-of-outputs': string;
   scale: number;
-  'ref-image': string;
 };
 
 const initialData: FormFields = {
@@ -32,7 +28,6 @@ const initialData: FormFields = {
   'neg-prompt': '',
   'no-of-outputs': '1',
   scale: 10,
-  'ref-image': '',
 };
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
@@ -171,7 +166,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               'neg-prompt': value.negative_prompt ?? '',
               'no-of-outputs': value.no_of_outputs,
               scale: value.scale,
-              'ref-image': value.ref_image,
             });
           }}
         />
