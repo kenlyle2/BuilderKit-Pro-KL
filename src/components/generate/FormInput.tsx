@@ -13,6 +13,7 @@ import { useDropzone } from 'react-dropzone';
 import InputWrapper from '../InputWrapper';
 import { cn } from '@/utils/utils';
 import Image from 'next/image';
+import UploadReferenceImage from './UploadReferenceImage';
 
 type FormInputProps = {
   data: TypeInteriorDesign[];
@@ -85,28 +86,13 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
       )
       .subscribe();
 
-    return async () => {
-      await supabase.removeChannel(channel);
+    //Todo check one clean up func is right or not
+    // Return a cleanup function
+    return () => {
+      // Unsubscribe from the channel
+      channel.unsubscribe();
     };
   }, [predictionId, supabase, router]);
-
-  //Convert to base64 url for image
-  const onDrop = (acceptedFiles: File[]) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(acceptedFiles[0]);
-    reader.onload = () => {
-      const base64 = reader.result as string;
-      setImage(base64);
-    };
-  };
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: { 'image/*': ['image/jpeg', 'image/png', 'image/gif'] },
-    multiple: false,
-    onDrop,
-    minSize: 1,
-    maxSize: 5242880, // 5MB
-  });
 
   return (
     <div className='p-5 xl:p-0 h-auto md:h-auto '>
@@ -164,29 +150,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                 </InputWrapper>
               </div>
 
-              <InputWrapper label='Image'>
-                <div
-                  {...getRootProps()}
-                  className={cn(
-                    'border-2 border-dashed border-gray-300 rounded-lg p-1 text-center cursor-pointer  ',
-                    image ? 'max-w-max h-64' : 'py-10'
-                  )}>
-                  <Input {...getInputProps()} />
-                  {image ? (
-                    <Image
-                      src={image}
-                      alt='Dropped Image'
-                      height={256}
-                      width={256}
-                      className='w-auto flex justify-center h-full rounded-sm'
-                    />
-                  ) : (
-                    <p className='flex items-center justify-center text-sm opacity-50 h-full'>
-                      Drag 'n' drop an image here, or click to select an image
-                    </p>
-                  )}
-                </div>
-              </InputWrapper>
+              <UploadReferenceImage image={image} onImageChange={setImage} />
             </div>
 
             <SubmitButton disabled={isPending} className='w-full' formAction={handleGeneration}>
