@@ -2,7 +2,7 @@
 
 import React, { FC } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TypeInteriorDesignGeneration } from '../../../types/utils';
+import { TypeInteriorDesign } from '../../../types/utils';
 import Image from 'next/image';
 import { LuLoader } from 'react-icons/lu';
 import downloadQrCode, { cn } from '@/utils/utils';
@@ -10,10 +10,10 @@ import { Button } from '../ui/button';
 import { TbDownload } from 'react-icons/tb';
 
 type OutputGenerationProps = {
-  data: TypeInteriorDesignGeneration[];
+  data: TypeInteriorDesign[];
   isPending: boolean;
-  generation?: TypeInteriorDesignGeneration;
-  onSelectItem: (value: TypeInteriorDesignGeneration) => void;
+  generation?: TypeInteriorDesign;
+  onSelectItem: (value: TypeInteriorDesign) => void;
   setImage: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
@@ -31,7 +31,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({
 
   return (
     <div className='w-full md:w-1/2 ml-0 md:ml-10'>
-      <Tabs defaultValue='output' value={currentTab} className='w-full h-[600px]'>
+      <Tabs defaultValue='output' value={currentTab} className='w-full h-[605px]'>
         <div className='flex justify-center mb-6'>
           <TabsList className='rounded-full p-1'>
             <TabsTrigger onClick={() => setCurrentTab('output')} className='rounded-full' value='output'>
@@ -53,27 +53,25 @@ const OutputGeneration: FC<OutputGenerationProps> = ({
               <LuLoader className='animate-[spin_3s_linear_infinite] m-auto' size={24} />
             ) : generation ? (
               generation.image_urls?.map((url, index) => (
-                <div className=''>
-                  <div className='group relative '>
-                    <Image
-                      src={url}
-                      alt=''
-                      width={260}
-                      height={260}
-                      className='border rounded-md mx-auto'
-                      placeholder='blur'
-                      blurDataURL={blurImageDataUrl}
-                    />
-                    {/* Hover Effect */}
-                    <div className='absolute inset-0 bg-black/30 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-auto cursor-pointer'>
-                      <Button
-                        variant='outline'
-                        onClick={() => downloadQrCode(url!, 'interior-design.png')}
-                        className='rounded-full'>
-                        <TbDownload className='mr-2' />
-                        Download
-                      </Button>
-                    </div>
+                <div key={index} className='group relative'>
+                  <Image
+                    src={url}
+                    alt=''
+                    width={260}
+                    height={260}
+                    className='border rounded-md mx-auto'
+                    placeholder='blur'
+                    blurDataURL={blurImageDataUrl}
+                  />
+                  {/* Hover Effect */}
+                  <div className='absolute inset-0 bg-black/30 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-auto cursor-pointer'>
+                    <Button
+                      variant='outline'
+                      onClick={() => downloadQrCode(url!, 'interior.png')}
+                      className='rounded-full'>
+                      <TbDownload className='mr-2' />
+                      Download
+                    </Button>
                   </div>
                 </div>
               ))

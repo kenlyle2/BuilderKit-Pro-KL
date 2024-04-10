@@ -20,6 +20,9 @@ export async function generateImageFn(formData: FormData, imagePreview: string) 
     if (!prompt) {
       throw 'Please enter prompt for the image.';
     }
+    if (!imagePreview) {
+      throw 'Please upload a reference image.';
+    }
 
     const formatedScale = Number(scale);
 
@@ -28,7 +31,7 @@ export async function generateImageFn(formData: FormData, imagePreview: string) 
       negativePrompt,
       noOfOutputs,
       scale: formatedScale,
-      ref_image: imagePreview,
+      refImage: imagePreview,
     });
 
     const { error } = await supabase.from('interior_designs').insert({
@@ -37,7 +40,7 @@ export async function generateImageFn(formData: FormData, imagePreview: string) 
       negative_prompt: negativePrompt,
       no_of_outputs: noOfOutputs,
       scale: formatedScale,
-      ref_image:imagePreview,
+      ref_image: imagePreview,
       prediction_id: predictionId,
     });
 

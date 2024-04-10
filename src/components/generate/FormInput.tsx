@@ -1,9 +1,10 @@
 'use client';
+
 import React, { FC, useEffect, useState } from 'react';
 import { SubmitButton } from '../SubmitButton';
 import { Input } from '../ui/input';
 import OutputGeneration from './OutputGeneration';
-import { TypeInteriorDesignGeneration } from '../../../types/utils';
+import { TypeInteriorDesign } from '../../../types/utils';
 import { toast } from '../ui/use-toast';
 import { generateImageFn } from '@/app/(main)/generate/actions';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
@@ -14,7 +15,7 @@ import { cn } from '@/utils/utils';
 import Image from 'next/image';
 
 type FormInputProps = {
-  data: TypeInteriorDesignGeneration[];
+  data: TypeInteriorDesign[];
 };
 
 type FormFields = {
@@ -22,7 +23,7 @@ type FormFields = {
   'neg-prompt': string;
   'no-of-outputs': string;
   scale: number;
-  ref_image: string;
+  'ref-image': string;
 };
 
 const initialData: FormFields = {
@@ -30,7 +31,7 @@ const initialData: FormFields = {
   'neg-prompt': '',
   'no-of-outputs': '1',
   scale: 10,
-  ref_image: '',
+  'ref-image': '',
 };
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
@@ -38,7 +39,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   const [isPending, setIsPending] = useState<boolean>(false);
   const [predictionId, setPredictionId] = useState<string>();
-  const [generation, setGeneration] = React.useState<TypeInteriorDesignGeneration>();
+  const [generation, setGeneration] = React.useState<TypeInteriorDesign>();
   const [formData, setFormData] = useState<FormFields>(initialData);
   const [image, setImage] = useState<string | null>(null);
 
@@ -76,7 +77,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
         },
         async (payload) => {
           if (payload.new.prediction_id === predictionId && payload.new.image_urls) {
-            setGeneration(payload.new as TypeInteriorDesignGeneration);
+            setGeneration(payload.new as TypeInteriorDesign);
             setIsPending(false);
             router.refresh();
           }
@@ -103,7 +104,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     accept: { 'image/*': ['image/jpeg', 'image/png', 'image/gif'] },
     multiple: false,
     onDrop,
-    minSize: 0,
+    minSize: 1,
     maxSize: 5242880, // 5MB
   });
 
@@ -162,6 +163,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                   />
                 </InputWrapper>
               </div>
+
               <InputWrapper label='Image'>
                 <div
                   {...getRootProps()}
@@ -179,7 +181,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                       className='w-auto flex justify-center h-full rounded-sm'
                     />
                   ) : (
-                    <p className='flex items-center justify-center h-full'>
+                    <p className='flex items-center justify-center text-sm opacity-50 h-full'>
                       Drag 'n' drop an image here, or click to select an image
                     </p>
                   )}
@@ -205,7 +207,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               'neg-prompt': value.negative_prompt ?? '',
               'no-of-outputs': value.no_of_outputs,
               scale: value.scale,
-              ref_image: value.ref_image,
+              'ref-image': value.ref_image,
             });
           }}
         />

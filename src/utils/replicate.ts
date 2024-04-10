@@ -5,24 +5,8 @@ const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
 
-export type TypeGenerationInput = {
-  prompt: string;
-  negativePrompt: string;
-  noOfOutputs?: string;
-  scale: number;
-  ref_image: string;
-};
-
 export async function startGeneration(inputs: TypeGenerationInput): Promise<string> {
-  const { prompt, negativePrompt, noOfOutputs, scale, ref_image } = inputs;
-
-  console.log({
-    prompt,
-    negativePrompt,
-    noOfOutputs,
-    scale,
-    ref_image,
-  });
+  const { prompt, negativePrompt, noOfOutputs, scale, refImage } = inputs;
 
   const origin = headers().get('origin');
 
@@ -30,7 +14,7 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
     version: '854e8727697a057c525cdb45ab037f64ecca770a1769cc52287c2e56472a247b',
     input: {
       eta: 0,
-      image: ref_image,
+      image: refImage,
       scale,
       prompt: prompt,
       a_prompt: 'best quality, extremely detailed',
@@ -50,3 +34,11 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
 
   return prediction.id;
 }
+
+export type TypeGenerationInput = {
+  prompt: string;
+  negativePrompt: string;
+  noOfOutputs?: string;
+  scale: number;
+  refImage: string;
+};
