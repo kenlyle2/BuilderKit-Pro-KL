@@ -5,7 +5,7 @@ export default async function Home() {
   const supabase = supabaseServerClient();
 
   const { data } = await supabase
-    .from('image_generations')
+    .from('interior_designs')
     .select()
     .order('created_at', { ascending: false })
     .not('image_urls', 'is', null);

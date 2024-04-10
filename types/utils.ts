@@ -1,3 +1,3 @@
 import { Database } from './supabase';
 
-export type TypeImageGeneration = Database['public']['Tables']['image_generations']['Row'];
+export type TypeInteriorDesignGeneration = Database['public']['Tables']['interior_designs']['Row'];
