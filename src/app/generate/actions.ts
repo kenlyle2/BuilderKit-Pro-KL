@@ -3,7 +3,7 @@
 import { startGeneration } from '@/utils/replicate';
 import { getUserDetails, supabaseServerClient } from '@/utils/supabase/server';
 
-export async function generateImageFn(formData: FormData) {
+export async function generateImageFn(formData: FormData, imagePreview: string) {
   const supabase = supabaseServerClient();
   const user = await getUserDetails();
 
@@ -12,38 +12,35 @@ export async function generateImageFn(formData: FormData) {
       throw 'Please login to Generate Images.';
     }
 
-    const model = formData.get('model') as string;
     const prompt = formData.get('prompt') as string;
     const negativePrompt = formData.get('neg-prompt') as string;
     const noOfOutputs = formData.get('no-of-outputs') as string;
-    const guidance = formData.get('guidance') as string;
-    const inference = formData.get('inference') as string;
+    const scale = formData.get('scale') as string;
 
     if (!prompt) {
       throw 'Please enter prompt for the image.';
     }
+    if (!imagePreview) {
+      throw 'Please upload a reference image.';
+    }
 
-    const formattedNoOfOutputs = Number(noOfOutputs) ?? 1;
-    const formattedGuidance = Number(guidance) ?? 7.5;
-    const formattedInference = Number(inference) ?? 50;
+    const formatedScale = Number(scale);
 
     const predictionId = await startGeneration({
-      modelVersion: model,
       prompt,
       negativePrompt,
-      noOfOutputs: formattedNoOfOutputs,
-      guidance: formattedGuidance,
-      inference: formattedInference,
+      noOfOutputs,
+      scale: formatedScale,
+      refImage: imagePreview,
     });
 
-    const { error } = await supabase.from('image_generations').insert({
+    const { error } = await supabase.from('interior_designs').insert({
       user_id: user.id,
-      model,
       prompt,
       negative_prompt: negativePrompt,
-      no_of_outputs: formattedNoOfOutputs.toString(),
-      guidance: formattedGuidance.toString(),
-      inference: formattedInference.toString(),
+      no_of_outputs: noOfOutputs,
+      scale: formatedScale,
+      ref_image: imagePreview,
       prediction_id: predictionId,
     });
 

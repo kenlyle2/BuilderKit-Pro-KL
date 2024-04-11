@@ -6,21 +6,25 @@ const replicate = new Replicate({
 });
 
 export async function startGeneration(inputs: TypeGenerationInput): Promise<string> {
-  const { modelVersion, prompt, negativePrompt, guidance, inference, noOfOutputs } = inputs;
+  const { prompt, negativePrompt, noOfOutputs, scale, refImage } = inputs;
 
   const origin = headers().get('origin');
 
   const prediction = await replicate.predictions.create({
-    version: modelVersion,
+    version: '854e8727697a057c525cdb45ab037f64ecca770a1769cc52287c2e56472a247b',
     input: {
-      width: 1024,
-      height: 1024,
-      prompt,
-      negative_prompt: negativePrompt ?? '',
-      guidance_scale: guidance ?? 7.5,
-      num_inference_steps: inference ?? 50,
-      num_outputs: noOfOutputs ?? 1,
-      apply_watermark: false,
+      eta: 0,
+      image: refImage,
+      scale,
+      prompt: prompt,
+      a_prompt: 'best quality, extremely detailed',
+      n_prompt: negativePrompt ?? '',
+      ddim_steps: 20,
+      num_samples: noOfOutputs ?? 1,
+      value_threshold: 0.1,
+      image_resolution: '512',
+      detect_resolution: 512,
+      distance_threshold: 0.1,
     },
     webhook: `${origin}/webhooks/replicate`,
     webhook_events_filter: ['completed'],
@@ -32,10 +36,9 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
 }
 
 export type TypeGenerationInput = {
-  modelVersion: string;
   prompt: string;
   negativePrompt: string;
-  guidance?: number;
-  inference?: number;
-  noOfOutputs?: number;
+  noOfOutputs?: string;
+  scale: number;
+  refImage: string;
 };

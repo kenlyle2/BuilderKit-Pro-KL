@@ -2,27 +2,36 @@
 
 import React, { FC } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TypeImageGeneration } from '../../../types/utils';
+import { TypeInteriorDesign } from '../../../types/utils';
 import Image from 'next/image';
 import { LuLoader } from 'react-icons/lu';
-import { cn } from '@/utils/utils';
+import downloadQrCode, { cn } from '@/utils/utils';
+import { Button } from '../ui/button';
+import { TbDownload } from 'react-icons/tb';
 
 type OutputGenerationProps = {
-  data: TypeImageGeneration[];
+  data: TypeInteriorDesign[];
   isPending: boolean;
-  generation?: TypeImageGeneration;
-  onSelectItem: (value: TypeImageGeneration) => void;
+  generation?: TypeInteriorDesign;
+  onSelectItem: (value: TypeInteriorDesign) => void;
+  setImage: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const blurImageDataUrl =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEXSURBVHgBVZDPSsNAEMa//dP8WVOheFToJejBKh7E4hMIXn0FwcfwrQSvPoFevFQUIdrE0NBTXRPTcbJrxc4yLHzz229nRtzd3lCy2YdJ+og5oyiG1hpSKwhICAEXWrGgdYBeEPLdg1TKp5AOEL8kaxqqc+Ci4tr8PcP11SUuzs/+IO/YAdq70HeLx4d7JIMBtmyNpq4RhKEHheQ+GArDCDGL6f4I6egQL08TlHmO7eHQg0RLgLgHfmCbBvOiwPQtg+2K/NMqZFM3WLYtiAgbxiCvKuzs7kGsBmETZ0RuIp6CtS+7wPHJGCaKYGLTkcz4o4/Gp8wIB05fn5FNuLfyA0VZIl0cwNpPtzZRzWYknDthPVj5J/0AA1VXn/cQBtkAAAAASUVORK5CYII=';
 
-const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, generation, onSelectItem }) => {
+const OutputGeneration: FC<OutputGenerationProps> = ({
+  data,
+  isPending,
+  generation,
+  onSelectItem,
+  setImage,
+}) => {
   const [currentTab, setCurrentTab] = React.useState('output');
 
   return (
     <div className='w-full md:w-1/2 ml-0 md:ml-10'>
-      <Tabs defaultValue='output' value={currentTab} className='w-full h-[550px]'>
+      <Tabs defaultValue='output' value={currentTab} className='w-full h-[605px]'>
         <div className='flex justify-center mb-6'>
           <TabsList className='rounded-full p-1'>
             <TabsTrigger onClick={() => setCurrentTab('output')} className='rounded-full' value='output'>
@@ -44,16 +53,29 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, generati
               <LuLoader className='animate-[spin_3s_linear_infinite] m-auto' size={24} />
             ) : generation ? (
               generation.image_urls?.map((url, index) => (
-                <Image
-                  key={index}
-                  src={url}
-                  alt=''
-                  width={250}
-                  height={250}
-                  className='border rounded-md mx-auto'
-                  placeholder='blur'
-                  blurDataURL={blurImageDataUrl}
-                />
+                <div className=''>
+                  <div key={index} className='group relative'>
+                    <Image
+                      src={url}
+                      alt=''
+                      width={260}
+                      height={260}
+                      className='border rounded-md mx-auto'
+                      placeholder='blur'
+                      blurDataURL={blurImageDataUrl}
+                    />
+                    {/* Hover Effect */}
+                    <div className='absolute inset-0 bg-black/30 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-auto cursor-pointer'>
+                      <Button
+                        variant='outline'
+                        onClick={() => downloadQrCode(url!, 'interior.png')}
+                        className='rounded-full'>
+                        <TbDownload className='mr-2' />
+                        Download
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               ))
             ) : (
               <p className='text-sm text-[#B9B9B9]'>See the generated image here...</p>
@@ -71,6 +93,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, generati
                   onClick={() => {
                     setCurrentTab('output');
                     onSelectItem(item);
+                    setImage(item.image_urls![1]);
                   }}>
                   <div className='text-[#B9B9B9] text-sm font-semibold'>{index + 1}.</div>
                   <div className='space-y-1'>

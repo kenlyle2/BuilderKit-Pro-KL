@@ -15,7 +15,7 @@ export async function POST(req: Request): Promise<NextResponse> {
       updateData = { image_urls: result };
     }
 
-    await supabaseAdmin.from('image_generations').update(updateData).eq('prediction_id', prediction.id);
+    await supabaseAdmin.from('interior_designs').update(updateData).eq('prediction_id', prediction.id);
 
     return NextResponse.json({ message: 'Webhook Received.' }, { status: 200 });
   } catch (err: any) {
