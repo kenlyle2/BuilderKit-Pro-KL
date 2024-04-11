@@ -21,6 +21,7 @@ type FormFields = {
   'neg-prompt': string;
   'no-of-outputs': string;
   scale: number;
+  image: string;
 };
 
 const initialData: FormFields = {
@@ -28,6 +29,7 @@ const initialData: FormFields = {
   'neg-prompt': '',
   'no-of-outputs': '1',
   scale: 10,
+  image: '',
 };
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
@@ -35,9 +37,8 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   const [isPending, setIsPending] = useState<boolean>(false);
   const [predictionId, setPredictionId] = useState<string>();
-  const [generation, setGeneration] = React.useState<TypeInteriorDesign>();
+  const [generatedImages, setGeneratedImages] = useState<string[]>();
   const [formData, setFormData] = useState<FormFields>(initialData);
-  const [image, setImage] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -52,7 +53,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
   const handleGeneration = async (data: FormData) => {
     setIsPending(true);
 
-    const response = await generateImageFn(data, image!);
+    const response = await generateImageFn(data, formData.image);
     if (typeof response == 'string') {
       toast({ description: response, variant: 'destructive' });
       setIsPending(false);
@@ -73,7 +74,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
         },
         async (payload) => {
           if (payload.new.prediction_id === predictionId && payload.new.image_urls) {
-            setGeneration(payload.new as TypeInteriorDesign);
+            setGeneratedImages(payload.new.image_urls);
             setIsPending(false);
             router.refresh();
           }
@@ -145,7 +146,10 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                 </InputWrapper>
               </div>
 
-              <UploadReferenceImage image={image} onImageChange={setImage} />
+              <UploadReferenceImage
+                image={formData.image}
+                onImageChange={(value) => setFormData({ ...formData, image: value })}
+              />
             </div>
 
             <SubmitButton disabled={isPending} className='w-full' formAction={handleGeneration}>
@@ -157,15 +161,15 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
         <OutputGeneration
           data={data}
           isPending={isPending}
-          generation={generation}
-          setImage={setImage}
+          images={generatedImages}
           onSelectItem={(value) => {
-            setGeneration(value);
+            setGeneratedImages(value.image_urls!);
             setFormData({
               prompt: value.prompt,
               'neg-prompt': value.negative_prompt ?? '',
               'no-of-outputs': value.no_of_outputs,
               scale: value.scale,
+              image: value.ref_image,
             });
           }}
         />
