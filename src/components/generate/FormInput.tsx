@@ -6,7 +6,7 @@ import { Input } from '../ui/input';
 import OutputGeneration from './OutputGeneration';
 import { TypeInteriorDesign } from '../../../types/utils';
 import { toast } from '../ui/use-toast';
-import { generateImageFn } from '@/app/(main)/generate/actions';
+import { generateImageFn } from '@/app/generate/actions';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import InputWrapper from '../InputWrapper';
