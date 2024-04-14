@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 type UploadReferenceImageProps = {
   image?: string | null;
-  onImageChange: (image: string) => void; 
+  onImageChange: (image: string) => void;
 };
 
 const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageChange }) => {
