@@ -2,7 +2,7 @@
 
 import React, { FC } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TypeInteriorDesign } from '../../../types/utils';
+import { TypeInteriorDesign } from '@/types/types';
 import Image from 'next/image';
 import { LuLoader } from 'react-icons/lu';
 import downloadQrCode, { cn } from '@/utils/utils';

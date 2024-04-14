@@ -6,7 +6,7 @@ import { ThemeSupa } from '@supabase/auth-ui-shared';
 
 export default function GoogleAuth() {
   const supabase = supabaseBrowserClient();
-  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`;
+  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback`;
 
   return (
     <div className='w-full'>

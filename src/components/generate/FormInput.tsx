@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { SubmitButton } from '../SubmitButton';
 import { Input } from '../ui/input';
 import OutputGeneration from './OutputGeneration';
-import { TypeInteriorDesign } from '../../../types/utils';
+import { TypeInteriorDesign } from '@/types/types';
 import { toast } from '../ui/use-toast';
 import { generateImageFn } from '@/app/generate/actions';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
