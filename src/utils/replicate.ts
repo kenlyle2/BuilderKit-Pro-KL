@@ -26,7 +26,7 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
       detect_resolution: 512,
       distance_threshold: 0.1,
     },
-    webhook: `${origin}/webhooks/replicate`,
+    webhook: `${origin}/api/webhooks/replicate`,
     webhook_events_filter: ['completed'],
   });
 
