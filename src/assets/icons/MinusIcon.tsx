@@ -2,7 +2,7 @@ import React from 'react';
 
 const PlusIcon = () => {
   return (
-    <svg width='29' height='28' viewBox='0 0 29 28' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='26' height='25' viewBox='0 0 29 28' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
         fillRule='evenodd'
         clipRule='evenodd'
