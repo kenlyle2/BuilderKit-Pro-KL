@@ -59,7 +59,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, images, 
                   {/* Hover Effect */}
                   <div className='absolute inset-0 bg-black/30 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-auto cursor-pointer'>
                     <Button
-                      variant='outline'
+                      variant='secondary'
                       onClick={() => downloadQrCode(url!, 'interior.png')}
                       className='rounded-full'>
                       <TbDownload className='mr-2' />

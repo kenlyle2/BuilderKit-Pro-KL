@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
 import { Toaster } from '@/components/ui/toaster';
+import ModalUserKeys from '@/components/ModalUserKeys';
 
 const font = Inter({ subsets: ['latin'] });
 
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className={font.className}>
           <main>{children}</main>
           <Toaster />
+          <ModalUserKeys />
         </body>
       </html>
     </>

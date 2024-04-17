@@ -6,6 +6,7 @@ import { FaFire } from 'react-icons/fa';
 import CheckedIcon from '@/assets/icons/CheckedIcon';
 import { CiGift } from 'react-icons/ci';
 import { cn } from '@/utils/utils';
+import Link from 'next/link';
 
 const plans = [
   {
@@ -111,13 +112,15 @@ const Pricing = () => {
         ))}
       </div>
       <div className='mt-5 mb-24 flex justify-center items-center'>
-        <Button
-          variant='outline'
-          className='rounded-full text-green-600 text-center text-base not-italic font-medium leading-6 gap-3 py-6 hover:text-green-600'>
-          {' '}
-          <CiGift className='size-6' />
-          Try free demo
-        </Button>
+        <Link href='/generate'>
+          <Button
+            variant='default'
+            className='rounded-full text-green-600 text-center text-base not-italic font-medium leading-6 gap-3 py-6 bg-background '>
+            {' '}
+            <CiGift className='size-6' />
+            Try free demo
+          </Button>
+        </Link>
       </div>
     </div>
   );

@@ -1,11 +1,14 @@
 import Replicate from 'replicate';
 import { headers } from 'next/headers';
-
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
-});
+import { getKeyFromCookie } from './cookieStore';
 
 export async function startGeneration(inputs: TypeGenerationInput): Promise<string> {
+  const replicateKey = getKeyFromCookie('replicate');
+
+  const replicate = new Replicate({
+    auth: replicateKey || process.env.REPLICATE_API_TOKEN,
+  });
+
   const { prompt, negativePrompt, noOfOutputs, scale, refImage } = inputs;
 
   const origin = headers().get('origin');

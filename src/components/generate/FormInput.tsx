@@ -54,8 +54,15 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     setIsPending(true);
 
     const response = await generateImageFn(data, formData.image);
-    if (typeof response == 'string') {
-      toast({ description: response, variant: 'destructive' });
+    if (typeof response === 'string') {
+      if (response.includes('Free time limit reached')) {
+        toast({
+          description: 'You have reached the free time limit.',
+          variant: 'destructive',
+        });
+      } else {
+        toast({ description: response, variant: 'destructive' });
+      }
       setIsPending(false);
     } else {
       setPredictionId(response.id);

@@ -1,6 +1,8 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import PlusIcon from '@/assets/icons/PlusIcon';
+import MinusIcon from '@/assets/icons/MinusIcon'; // Import your MinusIcon component
 
 const accordionData = [
   {
@@ -21,6 +23,12 @@ const accordionData = [
 ];
 
 const FAQs = () => {
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+
+  const toggleAccordion = (value: string) => {
+    setOpenAccordion(value === openAccordion ? null : value);
+  };
+
   return (
     <div id='faq' className='space-y-16 mt-44'>
       <div className='space-y-5 px-4'>
@@ -35,13 +43,13 @@ const FAQs = () => {
         <Accordion type='single' collapsible className='w-full'>
           {accordionData.map((item, index) => (
             <AccordionItem key={index} value={item.value} className='px-5'>
-              <AccordionTrigger>
-                <div className='flex items-center gap-4 text-base md:text-lg not-italic font-medium leading-7 text-white'>
-                  <PlusIcon />
-                  {item.question}
+              <AccordionTrigger onClick={() => toggleAccordion(item.value)}>
+                <div className='flex items-center gap-4 text-base md:text-lg not-italic font-medium leading-7 text-white '>
+                  {openAccordion === item.value ? <MinusIcon /> : <PlusIcon />} {item.question}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className='text-gray-600 text-base not-italic font-normal leading-8 ml-11'>
+              <AccordionContent
+                className={`text-gray-600 text-base not-italic font-normal leading-8 ml-11 transition-max-height duration-300 ease-in-out ${openAccordion === item.value ? 'max-h-screen' : 'max-h-0'}`}>
                 {item.answer}
               </AccordionContent>
             </AccordionItem>
