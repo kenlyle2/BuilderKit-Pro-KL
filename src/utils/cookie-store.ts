@@ -1,10 +1,8 @@
 import { cookies } from 'next/headers';
 
-export type TypeKeysInCookie = 'replicate';
-
-export function getKeyFromCookie(keyName: TypeKeysInCookie) {
+export function getReplicateKeyFromCookie() {
   const cookieStore = cookies();
-  const key = cookieStore.get(`x-${keyName}-key`)?.value;
+  const key = cookieStore.get(`x-replicate-key`)?.value;
   return key;
 }
 

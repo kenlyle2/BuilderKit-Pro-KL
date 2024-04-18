@@ -1,9 +1,9 @@
 import Replicate from 'replicate';
 import { headers } from 'next/headers';
-import { getKeyFromCookie } from './cookieStore';
+import { getReplicateKeyFromCookie } from './cookie-store';
 
 export async function startGeneration(inputs: TypeGenerationInput): Promise<string> {
-  const replicateKey = getKeyFromCookie('replicate');
+  const replicateKey = getReplicateKeyFromCookie();
 
   const replicate = new Replicate({
     auth: replicateKey || process.env.REPLICATE_API_TOKEN,

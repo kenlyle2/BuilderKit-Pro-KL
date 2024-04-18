@@ -11,7 +11,14 @@ interface ModalProps extends ButtonProps {
 const Modal: FC<ModalProps> = ({ children }) => {
   return (
     <Dialog defaultOpen={true}>
-      <DialogContent className='w-11/12 rounded-lg'>
+      <DialogContent
+        className='w-11/12 rounded-lg'
+        onInteractOutside={(e) => {
+          e.preventDefault();
+        }}
+        onEscapeKeyDown={(e) => {
+          e.preventDefault();
+        }}>
         <DialogHeader className='h-10 border-b mb-2'>
           <DialogTitle className='text-xl font-bold'>Get started with BuilderKit tools</DialogTitle>
         </DialogHeader>
