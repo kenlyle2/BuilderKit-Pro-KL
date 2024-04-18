@@ -3,10 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getUserDetails } from '@/utils/supabase/server';
 import { HiBars3 } from 'react-icons/hi2';
-import ModalAccount from './ModalAccount';
-import SignOutButton from './navbar/SignOutButton';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
-import ButtonCta from './landing-page/ButtonCta';
+import ModalAccount from '../ModalAccount';
+import SignOutButton from '../navbar/SignOutButton';
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import ButtonCta from '../landing-page/ButtonCta';
 export default async function Navbar() {
   const user = await getUserDetails();
 
