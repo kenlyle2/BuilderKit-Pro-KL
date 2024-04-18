@@ -26,7 +26,7 @@ const ModalUserKeys: FC = () => {
       <Modal>
         <p className='text-lg font-medium'>Please enter the key below to use the respective tools.</p>
         <form>
-          <InputWrapper id='replicate' label='Replicate' className="mt-5">
+          <InputWrapper id='replicate' label='Replicate' className='mt-5'>
             <Input id='replicate' name='replicate' placeholder='r8_****************************' />
           </InputWrapper>
           <SubmitButton className='w-full mt-5' formAction={handleSubmit}>
