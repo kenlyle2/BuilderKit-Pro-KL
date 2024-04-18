@@ -1,9 +1,16 @@
-import { supabaseServerClient } from '@/utils/supabase/server';
+import { getUserDetails, supabaseServerClient } from '@/utils/supabase/server';
 import FormInput from '@/components/generate/FormInput';
 import Navbar from '@/components/generate/Navbar';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const supabase = supabaseServerClient();
+
+  const user = await getUserDetails();
+
+  if (user == null) {
+    redirect('/login');
+  }
 
   const { data } = await supabase
     .from('interior_designs')
