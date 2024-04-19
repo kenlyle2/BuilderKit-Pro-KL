@@ -102,12 +102,12 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
       <div className='block md:flex items-start space-y-10 md:space-y-0'>
         <div className='w-full md:w-1/2 md:border-r pr-0 md:pr-10'>
           <div className='mb-6'>
-            <p className='text-[#27262B] text-xl font-bold leading-10'>AI Image Generation</p>
+            <p className='text-white text-xl font-bold leading-10'>AI Interior Generator</p>
           </div>
 
           <form className='md:h-[600px] flex flex-col justify-between'>
             <div className='flex flex-col gap-6 mb-5'>
-              <InputWrapper id='prompt' label='Prompt'>
+              <InputWrapper className='text-white' id='prompt' label='Prompt'>
                 <Input
                   id='prompt'
                   name='prompt'
@@ -115,21 +115,27 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                   autoFocus
                   value={formData.prompt}
                   onChange={handleInputChange}
+                  className='bg-[#1b1b1b80] border border-transparent'
                 />
               </InputWrapper>
 
-              <InputWrapper id='neg-prompt' label='Negative Prompt'>
+              <InputWrapper className='text-white' id='neg-prompt' label='Negative Prompt'>
                 <Input
                   id='neg-prompt'
                   name='neg-prompt'
                   placeholder='Negative Prompt'
                   value={formData['neg-prompt']}
                   onChange={handleInputChange}
+                  className='bg-[#1b1b1b80] border border-transparent'
                 />
               </InputWrapper>
 
               <div className='flex flex-col md:flex-row gap-6 md:gap-2'>
-                <InputWrapper id='no-of-outputs' label='Number of Outputs' description='(min: 1, max: 4)'>
+                <InputWrapper
+                  className='text-white'
+                  id='no-of-outputs'
+                  label='Number of Outputs'
+                  description='(min: 1, max: 4)'>
                   <Input
                     type='number'
                     min={1}
@@ -138,9 +144,10 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                     name='no-of-outputs'
                     value={formData['no-of-outputs']}
                     onChange={handleInputChange}
+                    className='bg-[#1b1b1b80] border border-transparent'
                   />
                 </InputWrapper>
-                <InputWrapper id='scale' label='Scale' description='(min: 1, max: 30)'>
+                <InputWrapper className='text-white' id='scale' label='Scale' description='(min: 1, max: 30)'>
                   <Input
                     type='number'
                     min={1}
@@ -149,6 +156,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                     name='scale'
                     value={formData['scale']}
                     onChange={handleInputChange}
+                    className='bg-[#1b1b1b80] border border-transparent'
                   />
                 </InputWrapper>
               </div>
@@ -159,7 +167,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               />
             </div>
 
-            <SubmitButton disabled={isPending} className='w-full' formAction={handleGeneration}>
+            <SubmitButton className='w-full bg-[#161616] rounded-2xl' formAction={handleGeneration}>
               Generate
             </SubmitButton>
           </form>

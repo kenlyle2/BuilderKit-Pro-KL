@@ -29,7 +29,7 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
   });
 
   return (
-    <InputWrapper label='Image'>
+    <InputWrapper label='Image' className="text-white">
       <div
         {...getRootProps()}
         className={cn(
@@ -47,7 +47,7 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
           />
         )}
         {!image && (
-          <p className='flex items-center justify-center text-sm opacity-50 h-full'>
+          <p className='flex items-center justify-center text-sm opacity-50 h-full text-white'>
             Drag 'n' drop an image here, or click to select an image
           </p>
         )}

@@ -26,7 +26,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, images, 
     <div className='w-full md:w-1/2 ml-0 md:ml-10'>
       <Tabs defaultValue='output' value={currentTab} className='w-full h-[605px]'>
         <div className='flex justify-center mb-6'>
-          <TabsList className='rounded-full p-1'>
+          <TabsList className='rounded-full p-1 bg-transparent border border-[#272626]'>
             <TabsTrigger onClick={() => setCurrentTab('output')} className='rounded-full' value='output'>
               Output
             </TabsTrigger>
@@ -80,14 +80,14 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, images, 
               data.map((item, index) => (
                 <div
                   key={index}
-                  className='p-2 gap-4 flex items-center rounded-lg bg-[#ECECEC]/60 hover:bg-[#ECECEC] cursor-pointer mb-2'
+                  className='p-2 gap-4 flex items-center rounded-lg bg-[#1F1F1F] hover:bg-[#383838] cursor-pointer mb-2'
                   onClick={() => {
                     setCurrentTab('output');
                     onSelectItem(item);
                   }}>
                   <div className='text-[#B9B9B9] text-sm font-semibold'>{index + 1}.</div>
                   <div className='space-y-1'>
-                    <p className='max-w-fit text-[#3E3E3E] text-sm font-semibold leading-5'>
+                    <p className='max-w-fit text-white text-sm font-semibold leading-5'>
                       {item.prompt.charAt(0).toUpperCase() + item.prompt.slice(1).toLowerCase()}
                     </p>
                   </div>
