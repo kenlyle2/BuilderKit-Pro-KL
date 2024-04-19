@@ -12,7 +12,7 @@ export function storeKeyInCookie(replicateKey: string) {
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
 
   const options = {
-    // domain: 'builderkit.ai',
+    domain: 'builderkit.ai',
     secure: true,
     maxAge: sevenDays,
     httpOnly: true,
