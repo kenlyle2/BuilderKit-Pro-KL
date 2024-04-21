@@ -26,7 +26,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, images, 
     <div className='w-full md:w-1/2 ml-0 md:ml-10'>
       <Tabs defaultValue='output' value={currentTab} className='w-full h-[605px]'>
         <div className='flex justify-center mb-6'>
-          <TabsList className='rounded-full p-1 bg-transparent border border-[#272626]'>
+          <TabsList className='rounded-full p-1 bg-transparent border dark:border-[#272626]'>
             <TabsTrigger onClick={() => setCurrentTab('output')} className='rounded-full' value='output'>
               Output
             </TabsTrigger>
@@ -36,7 +36,8 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, images, 
           </TabsList>
         </div>
 
-        <TabsContent value='output' className='h-full bg-[#9f9f9f]/5'>
+        <TabsContent value='output' className='h-full bg-[#FCFAFA] dark:bg-[#9f9f9f]/5 rounded-lg'>
+          {' '}
           <div
             className={cn(
               'h-full grid md:justify-between gap-2 border border-black/5 rounded-lg px-5 py-4 overflow-auto',
@@ -69,7 +70,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, images, 
                 </div>
               ))
             ) : (
-              <p className='text-sm text-[#B9B9B9]'>See the generated image here...</p>
+              <p className='text-sm '>See the generated image here...</p>
             )}
           </div>
         </TabsContent>
@@ -80,21 +81,21 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, isPending, images, 
               data.map((item, index) => (
                 <div
                   key={index}
-                  className='p-2 gap-4 flex items-center rounded-lg bg-[#1F1F1F] hover:bg-[#383838] cursor-pointer mb-2'
+                  className='p-2 gap-4 flex items-center rounded-lg bg-white hover:bg-gray-200 dark:bg-[#1F1F1F] dark:hover:bg-[#383838] cursor-pointer mb-2'
                   onClick={() => {
                     setCurrentTab('output');
                     onSelectItem(item);
                   }}>
-                  <div className='text-[#B9B9B9] text-sm font-semibold'>{index + 1}.</div>
+                  <div className='text-sm font-semibold'>{index + 1}.</div>
                   <div className='space-y-1'>
-                    <p className='max-w-fit text-white text-sm font-semibold leading-5'>
+                    <p className='max-w-fit text-sm font-semibold leading-5'>
                       {item.prompt.charAt(0).toUpperCase() + item.prompt.slice(1).toLowerCase()}
                     </p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className='text-sm text-[#B9B9B9]'>No generation found.</p>
+              <p className='text-sm'>No generation found.</p>
             )}
           </div>
         </TabsContent>
