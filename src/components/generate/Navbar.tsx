@@ -1,13 +1,12 @@
 import { cn } from '@/utils/utils';
-import Image from 'next/image';
-import Link from 'next/link';
 import ButtonCta from '../landing-page/ButtonCta';
 import { getUserDetails } from '@/utils/supabase/server';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { HiBars3 } from 'react-icons/hi2';
 import ModalAccount from '../ModalAccount';
 import SignOutButton from '../navbar/SignOutButton';
-import { ModeToggle } from '../ModeToggle';
+import { SelectTheme } from '../SelectTheme';
+import Logo from '../Logo';
 
 export default async function Navbar() {
   const user = await getUserDetails();
@@ -15,15 +14,10 @@ export default async function Navbar() {
   return (
     <div className='w-full'>
       <div className={cn('max-w-6xl mx-auto flex justify-between items-center p-4 xl:px-0 xl:py-4')}>
-        <Link href='/'>
-          <div className='flex items-center gap-1'>
-            <Image src='/logo.svg' className='size-6 ' width={50} height={50} alt='logo' />
-            <p className='text-2xl not-italic font-bold leading-6'>GenAI</p>
-          </div>
-        </Link>
+        <Logo />
 
         <div className='hidden md:flex items-center gap-4'>
-          <ModeToggle />
+          <SelectTheme />
           {user ? (
             <>
               <ModalAccount user={user} />
@@ -36,17 +30,14 @@ export default async function Navbar() {
 
         <div className='flex md:hidden items-center gap-2'>
           <div className='block md:hidden'>
-            <ModeToggle />
+            <SelectTheme />
           </div>
           <Sheet>
             <SheetTrigger className='block md:hidden'>
               <HiBars3 />
             </SheetTrigger>
             <SheetContent className=''>
-              <Link href='/' className='flex items-center gap-1 mb-10'>
-                <Image src='/logo.svg' className='size-6 ' width={50} height={50} alt='logo' />
-                <p className='text-2xl not-italic font-bold leading-6'>GenAI</p>
-              </Link>
+              <Logo />
 
               {user ? (
                 <>

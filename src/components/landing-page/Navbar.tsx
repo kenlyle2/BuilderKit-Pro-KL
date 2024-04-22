@@ -1,11 +1,10 @@
 import { cn } from '@/utils/utils';
-import Image from 'next/image';
 import Link from 'next/link';
-
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { HiBars3 } from 'react-icons/hi2';
 import ButtonCta from './ButtonCta';
 import { Button } from '../ui/button';
+import Logo from '../Logo';
 
 const NavbarRoutes = [
   { label: 'Features', url: '/#features' },
@@ -18,12 +17,7 @@ export default async function Navbar() {
   return (
     <div className='w-full text-white bg-[#031614]'>
       <div className={cn('max-w-6xl mx-auto flex justify-between items-center p-4')}>
-        <Link href='/'>
-          <div className='flex items-center gap-1'>
-            <Image src='/logo.svg' className='size-6 ' width={50} height={50} alt='logo' />
-            <p className='text-2xl not-italic font-bold leading-6'>GenAI</p>
-          </div>
-        </Link>
+        <Logo />
         <ul className='hidden md:flex items-center gap-6'>
           {NavbarRoutes.map((item, index) => (
             <li key={index} className='text-sm cursor-pointer font-medium leading-6'>

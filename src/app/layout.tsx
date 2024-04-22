@@ -46,12 +46,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </Script>
 
       <html lang='en'>
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-          <body className={font.className}>
+        <body className={font.className}>
+          <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
             <main>{children}</main>
             <Toaster />
-          </body>
-        </ThemeProvider>
+          </ThemeProvider>
+        </body>
       </html>
     </>
   );

@@ -1,11 +1,5 @@
 import { FC } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from './ui/button';
 import { MdArrowOutward } from 'react-icons/md';
 import { User } from '@supabase/supabase-js';
