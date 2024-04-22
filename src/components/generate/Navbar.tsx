@@ -18,13 +18,11 @@ export default async function Navbar() {
 
         <div className='hidden md:flex items-center gap-4'>
           <SelectTheme />
-          {user ? (
+          {user && (
             <>
               <ModalAccount user={user} />
               <SignOutButton />
             </>
-          ) : (
-            <ButtonCta label='Sign In' />
           )}
         </div>
 
@@ -39,15 +37,11 @@ export default async function Navbar() {
             <SheetContent className=''>
               <Logo />
 
-              {user ? (
-                <>
-                  <div className='space-y-6'>
-                    <ModalAccount user={user} className='font-medium' />
-                    <SignOutButton className='w-full' />
-                  </div>
-                </>
-              ) : (
-                <ButtonCta label='Sign In' />
+              {user && (
+                <div className='space-y-6'>
+                  <ModalAccount user={user} className='font-medium' />
+                  <SignOutButton className='w-full' />
+                </div>
               )}
             </SheetContent>
           </Sheet>
