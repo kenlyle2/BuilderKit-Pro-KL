@@ -33,7 +33,7 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
       <div
         {...getRootProps()}
         className={cn(
-          'border-2 border-dashed border-gray-300 rounded-lg p-1 text-center cursor-pointer  ',
+          'border-2 border-dashed  rounded-lg p-1 text-center cursor-pointer',
           image ? 'max-w-max h-64' : 'py-10'
         )}>
         <Input {...getInputProps()} />

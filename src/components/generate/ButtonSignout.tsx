@@ -5,11 +5,11 @@ import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 
-interface SignOutButtonProps {
+interface ButtonSignoutProps {
   className?: string;
 }
 
-const SignOutButton: FC<SignOutButtonProps> = ({ className }) => {
+const ButtonSignout: FC<ButtonSignoutProps> = ({ className }) => {
   const supabase = supabaseBrowserClient();
 
   const router = useRouter();
@@ -27,4 +27,4 @@ const SignOutButton: FC<SignOutButtonProps> = ({ className }) => {
   );
 };
 
-export default SignOutButton;
+export default ButtonSignout;

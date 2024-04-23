@@ -98,11 +98,11 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
   }, [predictionId, supabase, router]);
 
   return (
-    <div className='p-5 xl:p-0 h-auto md:h-auto '>
+    <div className='p-4 xl:p-0 h-auto md:h-auto '>
       <div className='block md:flex items-start space-y-10 md:space-y-0'>
-        <div className='w-full md:w-1/2 md:border-r pr-0 md:pr-10'>
+        <div className='w-full md:w-1/2 md:border-r border-[#ECECEC] dark:border-[#272626] pr-0 md:pr-10'>
           <div className='mb-6'>
-            <p className='text-[#27262B] text-xl font-bold leading-10'>AI Image Generation</p>
+            <p className='text-xl font-bold leading-10'>AI Interior Generator</p>
           </div>
 
           <form className='md:h-[600px] flex flex-col justify-between'>
@@ -115,6 +115,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                   autoFocus
                   value={formData.prompt}
                   onChange={handleInputChange}
+                  className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                 />
               </InputWrapper>
 
@@ -125,6 +126,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                   placeholder='Negative Prompt'
                   value={formData['neg-prompt']}
                   onChange={handleInputChange}
+                  className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                 />
               </InputWrapper>
 
@@ -138,6 +140,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                     name='no-of-outputs'
                     value={formData['no-of-outputs']}
                     onChange={handleInputChange}
+                    className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                   />
                 </InputWrapper>
                 <InputWrapper id='scale' label='Scale' description='(min: 1, max: 30)'>
@@ -149,6 +152,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                     name='scale'
                     value={formData['scale']}
                     onChange={handleInputChange}
+                    className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                   />
                 </InputWrapper>
               </div>
@@ -159,7 +163,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               />
             </div>
 
-            <SubmitButton disabled={isPending} className='w-full' formAction={handleGeneration}>
+            <SubmitButton className='w-full rounded-xl' variant='blue' formAction={handleGeneration}>
               Generate
             </SubmitButton>
           </form>
