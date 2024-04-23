@@ -11,7 +11,7 @@ export default async function Home() {
     .not('image_urls', 'is', null);
 
   return (
-    <div className='max-w-6xl mx-auto pt-14'>
+    <div className='max-w-6xl mx-auto pt-10'>
       <FormInput data={data!} />
     </div>
   );

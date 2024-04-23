@@ -1,10 +1,9 @@
 import { cn } from '@/utils/utils';
-import ButtonCta from '../landing-page/ButtonCta';
 import { getUserDetails } from '@/utils/supabase/server';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { HiBars3 } from 'react-icons/hi2';
 import ModalAccount from '../ModalAccount';
-import SignOutButton from '../navbar/SignOutButton';
+import ButtonSignout from './ButtonSignout';
 import { SelectTheme } from '../SelectTheme';
 import Logo from '../Logo';
 
@@ -21,7 +20,7 @@ export default async function Navbar() {
           {user && (
             <>
               <ModalAccount user={user} />
-              <SignOutButton />
+              <ButtonSignout />
             </>
           )}
         </div>
@@ -40,7 +39,7 @@ export default async function Navbar() {
               {user && (
                 <div className='space-y-6'>
                   <ModalAccount user={user} className='font-medium' />
-                  <SignOutButton className='w-full' />
+                  <ButtonSignout className='w-full' />
                 </div>
               )}
             </SheetContent>

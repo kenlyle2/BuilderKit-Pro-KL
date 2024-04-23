@@ -12,6 +12,7 @@ export default async function Layout({ children }: Props) {
   if (user == null) {
     redirect('/login');
   }
+
   return (
     <>
       <Navbar />
