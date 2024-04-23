@@ -121,7 +121,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                   autoFocus
                   value={formData.prompt}
                   onChange={handleInputChange}
-                  className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                 />
               </InputWrapper>
 
@@ -132,7 +131,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                   placeholder='Negative Prompt'
                   value={formData['neg-prompt']}
                   onChange={handleInputChange}
-                  className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                 />
               </InputWrapper>
 
@@ -146,7 +144,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                     name='no-of-outputs'
                     value={formData['no-of-outputs']}
                     onChange={handleInputChange}
-                    className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                   />
                 </InputWrapper>
                 <InputWrapper id='scale' label='Scale' description='(min: 1, max: 30)'>
@@ -158,7 +155,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                     name='scale'
                     value={formData['scale']}
                     onChange={handleInputChange}
-                    className='bg-[#9F9F9F]/10 dark:bg-[#1b1b1b80] border border-transparent'
                   />
                 </InputWrapper>
               </div>
