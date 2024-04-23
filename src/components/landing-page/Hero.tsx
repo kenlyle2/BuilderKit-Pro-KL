@@ -1,3 +1,7 @@
+// This component serves as the primary visual and textual introduction on the homepage.
+// It typically includes a headline, a subheading, and a call-to-action (CTA) button to engage users right from the start.
+// This component plays a crucial role in setting the tone and providing key information about the product or service.
+
 import { FaArrowRight } from 'react-icons/fa';
 import Image from 'next/image';
 import dashboard from '@/assets/images/dashboard.png';

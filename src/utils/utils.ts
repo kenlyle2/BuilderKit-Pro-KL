@@ -1,10 +1,13 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// Function: cn (Class Name)
+// This utility function combines and deduplicates class names using clsx and twMerge.
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Helper function: image download
 function forceDownload(blobUrl: string, filename: string) {
   const a = document.createElement('a');
   a.download = filename;
@@ -14,7 +17,8 @@ function forceDownload(blobUrl: string, filename: string) {
   a.remove();
 }
 
-export default function downloadQrCode(url: string, filename: string) {
+// Design download function. It takes the URL of the image and the filename as arguments.
+export default function downloadImage(url: string, filename: string) {
   fetch(url, {
     headers: new Headers({
       Origin: location.origin,

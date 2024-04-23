@@ -3,13 +3,15 @@
 import { startGeneration } from '@/utils/replicate';
 import { getUserDetails, supabaseServerClient } from '@/utils/supabase/server';
 
-export async function generateImageFn(formData: FormData, imagePreview: string) {
+// This server function handles the generation of images based on user input.
+// It validates user login, checks the provided form data, and starts the image generation process.
+export async function generateDesignFn(formData: FormData, imagePreview: string) {
   const supabase = supabaseServerClient();
   const user = await getUserDetails();
 
   try {
     if (user == null) {
-      throw 'Please login to Generate Images.';
+      throw 'Please login to Generate Designs.';
     }
 
     const prompt = formData.get('prompt') as string;
@@ -18,14 +20,15 @@ export async function generateImageFn(formData: FormData, imagePreview: string) 
     const scale = formData.get('scale') as string;
 
     if (!prompt) {
-      throw 'Please enter prompt for the image.';
+      throw 'Please enter prompt for the design.';
     }
     if (!imagePreview) {
-      throw 'Please upload a reference image.';
+      throw 'Please upload a reference design.';
     }
 
     const formatedScale = Number(scale);
 
+    // Calls the replicate function to start the generation process with the provided deisgn inputs.
     const predictionId = await startGeneration({
       prompt,
       negativePrompt,
@@ -34,6 +37,7 @@ export async function generateImageFn(formData: FormData, imagePreview: string) 
       refImage: imagePreview,
     });
 
+    // Store the image details in the database with the prediction id received from Replicate Api.
     const { error } = await supabase.from('interior_designs').insert({
       user_id: user.id,
       prompt,

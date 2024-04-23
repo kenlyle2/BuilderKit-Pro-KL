@@ -1,3 +1,6 @@
+// This component serves as the navigation bar for the application, which appears across various pages.
+// It dynamically adjusts to display different links based on the user's authentication status and screen size.
+
 import { cn } from '@/utils/utils';
 import { getUserDetails } from '@/utils/supabase/server';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
@@ -25,6 +28,7 @@ export default async function Navbar() {
           )}
         </div>
 
+        {/* Specific to mobile view */}
         <div className='flex md:hidden items-center gap-2'>
           <div className='block md:hidden'>
             <SelectTheme />

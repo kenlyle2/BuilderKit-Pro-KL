@@ -1,3 +1,7 @@
+// This component showcases logos of companies or media outlets where the product or service has been featured.
+// This is useful for building credibility and trust with potential customers by highlighting notable endorsements.
+// Logos are expected to be passed as an array of image URLs through the `logos` prop.
+
 import React from 'react';
 
 const FeatureOn = () => {

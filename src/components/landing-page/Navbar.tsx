@@ -1,3 +1,7 @@
+// This component is used to provide navigation links across the website.
+// It is typically placed at the top of each page and includes links to major sections like Home, About, Services, and Contact.
+// The component also handles responsive adjustments to ensure navigation is accessible on different device sizes.
+
 import { cn } from '@/utils/utils';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';

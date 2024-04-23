@@ -1,3 +1,9 @@
+// This component handles both user registration and login via email.
+// It toggles between login and registration forms based on the user's choice.
+// Forms are submitted to the `signIn` or `signUp` actions depending on the mode (login or register).
+// Errors during form submission are displayed using the `toast` function.
+// Successful authentication redirects the user to the `/dashboard`.
+
 'use client';
 
 import { FC, useState } from 'react';
@@ -15,8 +21,11 @@ const EmailAuth: FC<EmailAuthProps> = () => {
 
   const router = useRouter();
 
+  // authStatusLabel is a dynamic text that changes based on whether the user is in login or registration mode.
   const authStatusLabel = isLogin ? "Don't have an account?" : 'Already have an account?';
 
+  // handleFormAction is an asynchronous function triggered on form submission.
+  // It calls the signIn or signUp functions based on the isLogin state.
   const handleFormAction = async (formData: FormData) => {
     let error;
 
@@ -82,3 +91,6 @@ const EmailAuth: FC<EmailAuthProps> = () => {
 };
 
 export default EmailAuth;
+
+// For this component, you can consider adding server-side validation for additional security.
+// This will help prevent malicious users from bypassing client-side validations.

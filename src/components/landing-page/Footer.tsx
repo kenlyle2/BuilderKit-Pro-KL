@@ -1,3 +1,7 @@
+// This component is used to display the website's footer section.
+// It typically contains links to important pages, contact information, and social media icons.
+// This component is crucial for navigation and offers users a way to connect with the company on different platforms.
+
 import { CiTwitter } from 'react-icons/ci';
 import { FaDribbble, FaInstagram } from 'react-icons/fa';
 import { MdOutlineEmail } from 'react-icons/md';

@@ -1,3 +1,6 @@
+// This component illustrates the step-by-step process or workflow of how the service or product operates.
+// It is a simple component that displays the workflow of the service or product in a visually appealing manner.
+
 import Image from 'next/image';
 import React from 'react';
 import card from '@/assets/images/card.png';

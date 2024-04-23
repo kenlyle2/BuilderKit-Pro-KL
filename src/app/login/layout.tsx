@@ -6,9 +6,11 @@ type Props = {
   children: React.ReactNode;
 };
 
+// Custom layout for login page
 const LoginLayout = async ({ children }: Props) => {
   const user = await getUserDetails();
 
+  // Redirects to login page if user is not authenticated
   if (user) {
     redirect('/generate');
   }

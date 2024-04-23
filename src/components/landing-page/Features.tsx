@@ -1,3 +1,7 @@
+// This component displays a list of key features or services offered by the product.
+// Each feature is represented with an icon and a short description, making it easy for users to quickly understand the product's value.
+// The component expects an array of features with `icon`, `title`, and `description` properties.
+
 import React from 'react';
 import { FaGraduationCap } from 'react-icons/fa';
 
