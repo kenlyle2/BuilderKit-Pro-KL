@@ -1,3 +1,6 @@
+// This snippet demonstrates the use of a ButtonSignout component to sign out a user from the application.
+// You can use the ButtonSignout component to create sign-out buttons anywhere in your application.
+
 'use client';
 
 import { FC } from 'react';

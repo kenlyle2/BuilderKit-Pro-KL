@@ -1,3 +1,5 @@
+// This is the entry component for the landing page of the application.
+
 import Features from '@/components/landing-page/Features';
 import FeaturedOn from '@/components/landing-page/FeaturedOn';
 import Footer from '@/components/landing-page/Footer';

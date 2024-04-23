@@ -1,3 +1,5 @@
+// This component is used to take input from the user and display the generated designs.
+
 'use client';
 
 import React, { FC, useEffect, useState } from 'react';
@@ -6,7 +8,7 @@ import { Input } from '../ui/input';
 import OutputGeneration from './OutputGeneration';
 import { TypeInteriorDesign } from '@/types/types';
 import { toast } from '../ui/use-toast';
-import { generateImageFn } from '@/app/generate/actions';
+import { generateDesignFn } from '@/app/generate/actions';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import InputWrapper from '../InputWrapper';
@@ -42,6 +44,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   const router = useRouter();
 
+  // Handles changes in form inputs and updates the state accordingly.
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -50,10 +53,13 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     }));
   };
 
+  // Function to initiate the design generation process by calling generateDesignFn from server actions.
   const handleGeneration = async (data: FormData) => {
     setIsPending(true);
 
-    const response = await generateImageFn(data, formData.image);
+    const response = await generateDesignFn(data, formData.image);
+    // Handle response from the server action function.
+    // If the response is a string then it is an error message, otherwise it is the prediction id.
     if (typeof response === 'string') {
       if (response.includes('Free time limit reached')) {
         toast({
@@ -69,6 +75,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     }
   };
 
+  // Relatime Subscribes to database changes to receive updates on design generation status and results.
   useEffect(() => {
     const channel = supabase
       .channel('value-db-changes')
@@ -83,16 +90,15 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
           if (payload.new.prediction_id === predictionId && payload.new.image_urls) {
             setGeneratedImages(payload.new.image_urls);
             setIsPending(false);
+            // Refresh the current page to reflect changes.
             router.refresh();
           }
         }
       )
       .subscribe();
 
-    //Todo check one clean up func is right or not
-    // Return a cleanup function
+    // Clean-up function to unsubscribe from the channel.
     return () => {
-      // Unsubscribe from the channel
       channel.unsubscribe();
     };
   }, [predictionId, supabase, router]);
@@ -157,6 +163,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                 </InputWrapper>
               </div>
 
+              {/* Uplaod reference image component */}
               <UploadReferenceImage
                 image={formData.image}
                 onImageChange={(value) => setFormData({ ...formData, image: value })}
@@ -169,6 +176,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
           </form>
         </div>
 
+        {/* Show results in this output component */}
         <OutputGeneration
           data={data}
           isPending={isPending}

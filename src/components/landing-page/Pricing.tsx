@@ -1,3 +1,7 @@
+// This component displays the different subscription plans or pricing tiers available for the product or service.
+// It typically includes information such as price, features included in each plan, and a call-to-action for users to sign up or purchase.
+// This component is key for conversion and clearly communicates the value proposition of each pricing tier.
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '../ui/badge';
@@ -6,7 +10,6 @@ import { FaFire } from 'react-icons/fa';
 import CheckedIcon from '@/assets/icons/CheckedIcon';
 import { CiGift } from 'react-icons/ci';
 import { cn } from '@/utils/utils';
-import Link from 'next/link';
 
 const plans = [
   {
@@ -112,15 +115,13 @@ const Pricing = () => {
         ))}
       </div>
       <div className='mt-5 mb-24 flex justify-center items-center'>
-        <Link href='/generate'>
-          <Button
-            variant='default'
-            className='rounded-full text-green-600 text-center text-base not-italic font-medium leading-6 gap-3 py-6 bg-background '>
-            {' '}
-            <CiGift className='size-6' />
-            Try free demo
-          </Button>
-        </Link>
+        <Button
+          variant='default'
+          className='rounded-full text-green-600 text-center text-base font-medium leading-6 gap-3 py-6 hover:text-green-600 bg-background'>
+          {' '}
+          <CiGift className='size-6' />
+          Try free demo
+        </Button>
       </div>
     </div>
   );

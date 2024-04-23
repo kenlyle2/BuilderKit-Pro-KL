@@ -1,3 +1,7 @@
+// This component is used to upload a reference image for the design generation
+// It updates the uploaded image in the parent component state using the onImageChange prop.
+// It also display the uploaded image in the component if the image is uploaded.
+
 import { FC } from 'react';
 import { useDropzone } from 'react-dropzone';
 import InputWrapper from '../InputWrapper';
@@ -11,6 +15,7 @@ type UploadReferenceImageProps = {
 };
 
 const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageChange }) => {
+  // Handle image file drop or upload
   const onDrop = (acceptedFiles: File[]) => {
     const reader = new FileReader();
     reader.readAsDataURL(acceptedFiles[0]);
@@ -20,12 +25,17 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
     };
   };
 
+  // Max file size limit is 4.5mb. This is the limit allowed by Vercel.
+  // Alternate way is to upload the image to a cloud storage from the client side (front-end) and provide the link here.
+  const maxFileSize = 4.5 * 1000 * 1000;
+
+  // Functions to handle the image drop and upload through react-dropzone library
   const { getRootProps, getInputProps } = useDropzone({
     accept: { 'image/*': ['image/jpeg', 'image/png', 'image/gif'] },
     multiple: false,
     onDrop,
     minSize: 1,
-    maxSize: 5242880, // 5MB
+    maxSize: maxFileSize,
   });
 
   return (
@@ -37,6 +47,7 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
           image ? 'max-w-max h-64' : 'py-10'
         )}>
         <Input {...getInputProps()} />
+        {/* Display selected image */}
         {image && (
           <Image
             src={image}
@@ -46,6 +57,7 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
             className='w-auto flex justify-center h-full rounded-sm'
           />
         )}
+        {/* Placeholder to guide user to upload a reference image */}
         {!image && (
           <p className='flex items-center justify-center text-sm opacity-50 h-full'>
             Drag 'n' drop an image here, or click to select an image
