@@ -40,7 +40,7 @@ const ModalAccount: FC<ModalAccountProps> = ({ user, className }) => {
             <p>Current Plan</p>
             <p>Free</p>
           </div>
-          <Button className='rounded-lg w-full flex border border-[#51DCA3] green-btn-gradient gap-2'>
+          <Button className='rounded-lg w-full gap-2' variant='blue'>
             Upgrade Plan <MdArrowOutward size={16} />
           </Button>
         </div>
