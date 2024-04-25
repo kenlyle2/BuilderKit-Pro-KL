@@ -12,7 +12,7 @@ export default function Login() {
   return (
     <div className='h-screen bg-[#031614] flex'>
       <div className='w-full md:w-1/2 flex flex-col items-center justify-center px-6'>
-        <h1 className='text-white text-4xl font-medium mb-6'>AI Content Creator</h1>
+        <h1 className='text-white text-4xl font-medium mb-6'>Interior Design Generator</h1>
         <h2 className='text-[#8F95B2] text-sm mb-16'>Login or register with your email</h2>
 
         <div className='w-full sm:max-w-md flex flex-col gap-8 items-center'>
