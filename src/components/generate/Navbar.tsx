@@ -36,10 +36,14 @@ export default async function Navbar() {
             <SheetTrigger className='block md:hidden'>
               <HiBars3 />
             </SheetTrigger>
-            <SheetContent className=''>
+            <SheetContent>
               <Logo />
 
-              {user && <NavItems user={user} />}
+              {user && (
+                <div className='space-y-6 mt-8'>
+                  <NavItems user={user} />
+                </div>
+              )}
             </SheetContent>
           </Sheet>
         </div>
