@@ -4,7 +4,7 @@
 
 import { FC } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { MdArrowOutward } from 'react-icons/md';
 import { User } from '@supabase/supabase-js';
 import { cn } from '@/utils/utils';
@@ -17,7 +17,9 @@ interface ModalAccountProps {
 const ModalAccount: FC<ModalAccountProps> = ({ user, className }) => {
   return (
     <Dialog>
-      <DialogTrigger className={cn(' hover:no-underline', className)}>Account Settings</DialogTrigger>
+      <DialogTrigger className={cn(buttonVariants({ variant: 'outline' }), 'w-full', className)}>
+        Account Settings
+      </DialogTrigger>{' '}
       <DialogContent className='w-11/12 rounded-lg'>
         <DialogHeader className='h-12 border-b mb-5'>
           <DialogTitle className='text-center text-xl'>Account Settings</DialogTitle>
