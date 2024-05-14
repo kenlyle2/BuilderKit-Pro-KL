@@ -20,7 +20,7 @@ const NavbarRoutes = [
 export default async function Navbar() {
   return (
     <div className='w-full text-white bg-[#031614]'>
-      <div className={cn('max-w-6xl mx-auto flex justify-between items-center p-4')}>
+      <div className='max-w-6xl mx-auto flex justify-between items-center p-4'>
         <Logo />
         <ul className='hidden md:flex items-center gap-6'>
           {NavbarRoutes.map((item, index) => (

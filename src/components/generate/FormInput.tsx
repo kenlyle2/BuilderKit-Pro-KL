@@ -2,62 +2,74 @@
 
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { ChangeEventHandler, FC, useEffect, useState } from 'react';
 import { SubmitButton } from '../SubmitButton';
-import { Input } from '../ui/input';
-import OutputGeneration from './OutputGeneration';
 import { TypeInteriorDesign } from '@/types/types';
 import { toast } from '../ui/use-toast';
-import { generateDesignFn } from '@/app/generate/actions';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import InputWrapper from '../InputWrapper';
 import UploadReferenceImage from './UploadReferenceImage';
+import { Separator } from '../ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '../ui/textarea';
+
+import OutputStylesModal, { RoomTypes } from './OutputStylesModal';
+import OutputGeneration from './OutputGeneration';
+import { generateDesignFn } from '@/app/(dashboard)/generate/actions';
+import Image from 'next/image';
+import { Badge } from '../ui/badge';
+import { cn } from '@/utils/utils';
+import { Button } from '../ui/button';
+import { BarLoader } from 'react-spinners';
 
 type FormInputProps = {
-  data: TypeInteriorDesign[];
+  data?: TypeInteriorDesign;
 };
 
 type FormFields = {
   prompt: string;
-  'neg-prompt': string;
-  'no-of-outputs': string;
-  scale: number;
   image: string;
-};
-
-const initialData: FormFields = {
-  prompt: '',
-  'neg-prompt': '',
-  'no-of-outputs': '1',
-  scale: 10,
-  image: '',
+  roomType: string;
+  outputStyle: string;
 };
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
   const supabase = supabaseBrowserClient();
-
-  const [isPending, setIsPending] = useState<boolean>(false);
-  const [predictionId, setPredictionId] = useState<string>();
-  const [generatedImages, setGeneratedImages] = useState<string[]>();
-  const [formData, setFormData] = useState<FormFields>(initialData);
-
   const router = useRouter();
 
-  // Handles changes in form inputs and updates the state accordingly.
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  //TODO change the initial data to match the data structure
+  const initialData: FormFields = {
+    prompt: data?.prompt ?? '',
+    image: data?.ref_image ?? '',
+    roomType: data?.roomType ?? '',
+    outputStyle: data?.outputStyle ?? '',
   };
 
-  // Function to initiate the design generation process by calling generateDesignFn from server actions.
-  const handleGeneration = async (data: FormData) => {
-    setIsPending(true);
+  const [isPending, setIsLoading] = useState<boolean>(false);
+  const [predictionId, setPredictionId] = useState<string>();
+  const [generatedData, setGeneratedData] = useState<{
+    image_urls: string[];
+    id: string;
+    outputStyle: string;
+  }>({
+    image_urls: data?.image_urls ?? [],
+    id: data?.id ?? '',
+    outputStyle: data?.outputStyle ?? '',
+  });
+  const [formData, setFormData] = useState<FormFields>(initialData);
 
-    const response = await generateDesignFn(data, formData.image);
+  // Function to initiate the design generation process by calling generateDesignFn from server actions.
+  const handleGeneration = async () => {
+    const { prompt, outputStyle, roomType, image } = formData;
+
+    if (!prompt || !outputStyle || !roomType || !image) {
+      toast({ description: 'Please enter all the required fields.', variant: 'destructive' });
+      return;
+    }
+
+    setIsLoading(true);
+    const response = await generateDesignFn(prompt, outputStyle, roomType, image);
     // Handle response from the server action function.
     // If the response is a string then it is an error message, otherwise it is the prediction id.
     if (typeof response === 'string') {
@@ -69,7 +81,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
       } else {
         toast({ description: response, variant: 'destructive' });
       }
-      setIsPending(false);
+      setIsLoading(false);
     } else {
       setPredictionId(response.id);
     }
@@ -88,9 +100,14 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
         },
         async (payload) => {
           if (payload.new.prediction_id === predictionId && payload.new.image_urls) {
-            setGeneratedImages(payload.new.image_urls);
-            setIsPending(false);
+            setGeneratedData({
+              image_urls: payload.new.image_urls,
+              id: payload.new.id,
+              outputStyle: payload.new.output_style,
+            });
+            setIsLoading(false);
             // Refresh the current page to reflect changes.
+            router.replace(`generate/${payload.new.id}`);
             router.refresh();
           }
         }
@@ -104,90 +121,85 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
   }, [predictionId, supabase, router]);
 
   return (
-    <div className='p-4 xl:p-0 h-auto md:h-auto '>
-      <div className='block md:flex items-start space-y-10 md:space-y-0'>
-        <div className='w-full md:w-1/2 md:border-r border-[#ECECEC] dark:border-[#272626] pr-0 md:pr-10'>
-          <div className='mb-6'>
-            <p className='text-xl font-bold leading-10'>AI Interior Generator</p>
-          </div>
+    <div className='p-4 md:px-8'>
+      <p className='text-grey dark:text-white font-semibold mb-4'>Let’s create a room</p>
+      <div className='block md:flex gap-4'>
+        <div className='border border-light-grey dark:border-dark p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
+          <div className=''>
+            <UploadReferenceImage
+              image={formData.image}
+              onImageChange={(value) => setFormData({ ...formData, image: value })}
+            />
+            <Separator className='my-3' />
+            <InputWrapper id='selectRoom' label='Select Room' className='mb-2'>
+              <Select
+                value={formData.roomType}
+                onValueChange={(value) => setFormData({ ...formData, roomType: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder='Choose' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='bedroom'>Bedroom</SelectItem>
+                  <SelectItem value='living-room'>Living Room</SelectItem>
+                  <SelectItem value='kitchen'>Kitchen</SelectItem>
+                  <SelectItem value='bathroom'>Bathroom</SelectItem>
+                  <SelectItem value='office'>Office</SelectItem>
+                  <SelectItem value='dining-room'>Dining Room</SelectItem>
+                </SelectContent>
+              </Select>
+            </InputWrapper>
 
-          <form className='md:h-[600px] flex flex-col justify-between'>
-            <div className='flex flex-col gap-6 mb-5'>
-              <InputWrapper id='prompt' label='Prompt'>
-                <Input
-                  id='prompt'
-                  name='prompt'
-                  placeholder='Image Prompt'
-                  autoFocus
-                  value={formData.prompt}
-                  onChange={handleInputChange}
+            <div className='mb-2'>
+              <div className='flex items-center justify-between mb-2'>
+                <p className='text-grey dark:text-white font-medium text-sm'>Output style</p>
+                <OutputStylesModal
+                  handleSelectRoom={(room) => setFormData({ ...formData, outputStyle: room })}
+                  selected={formData.outputStyle}
                 />
-              </InputWrapper>
-
-              <InputWrapper id='neg-prompt' label='Negative Prompt'>
-                <Input
-                  id='neg-prompt'
-                  name='neg-prompt'
-                  placeholder='Negative Prompt'
-                  value={formData['neg-prompt']}
-                  onChange={handleInputChange}
-                />
-              </InputWrapper>
-
-              <div className='flex flex-col md:flex-row gap-6 md:gap-2'>
-                <InputWrapper id='no-of-outputs' label='Number of Outputs' description='(min: 1, max: 4)'>
-                  <Input
-                    type='number'
-                    min={1}
-                    max={4}
-                    id='no-of-outputs'
-                    name='no-of-outputs'
-                    value={formData['no-of-outputs']}
-                    onChange={handleInputChange}
-                  />
-                </InputWrapper>
-                <InputWrapper id='scale' label='Scale' description='(min: 1, max: 30)'>
-                  <Input
-                    type='number'
-                    min={1}
-                    max={30}
-                    id='scale'
-                    name='scale'
-                    value={formData['scale']}
-                    onChange={handleInputChange}
-                  />
-                </InputWrapper>
               </div>
 
-              {/* Uplaod reference image component */}
-              <UploadReferenceImage
-                image={formData.image}
-                onImageChange={(value) => setFormData({ ...formData, image: value })}
-              />
+              <div className='overflow-x-auto flex flex-nowrap gap-2'>
+                {RoomTypes.map((room, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setFormData((prev) => ({ ...prev, outputStyle: room.name }))}
+                    className={cn(
+                      'relative flex flex-col justify-center items-center cursor-pointer border-4 border-transparent w-36',
+                      formData.outputStyle === room.name && 'border-blue-600 rounded-lg'
+                    )}>
+                    <div className='w-32 h-28 rounded overflow-hidden'>
+                      <Image
+                        src={room.image}
+                        alt={room.name}
+                        width={120}
+                        height={120}
+                        className='object-cover h-28 w-32'
+                      />
+                    </div>
+                    <Badge variant='transparent' className='absolute bottom-2'>
+                      {room.name}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <SubmitButton className='w-full rounded-xl' variant='blue' formAction={handleGeneration}>
-              Generate
-            </SubmitButton>
-          </form>
+            <InputWrapper id='instructions' label='Instructions' className='mb-4'>
+              <Textarea
+                id='instructions'
+                name='instructions'
+                placeholder='Enter additional prompt'
+                className='min-h-20'
+                value={formData.prompt}
+                onChange={(e) => setFormData({ ...formData, prompt: e.target.value })}
+              />
+            </InputWrapper>
+            <Button className='w-full' onClick={handleGeneration}>
+              {isPending ? <BarLoader height={1} color='white' /> : 'Generate'}
+            </Button>
+          </div>
         </div>
-
-        {/* Show results in this output component */}
-        <OutputGeneration
-          data={data}
-          isPending={isPending}
-          images={generatedImages}
-          onSelectItem={(value) => {
-            setGeneratedImages(value.image_urls!);
-            setFormData({
-              prompt: value.prompt,
-              'neg-prompt': value.negative_prompt ?? '',
-              'no-of-outputs': value.no_of_outputs,
-              scale: value.scale,
-              image: value.ref_image,
-            });
-          }}
-        />
+        <OutputGeneration data={generatedData!} />
       </div>
     </div>
   );
