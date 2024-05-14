@@ -22,7 +22,7 @@ const UserButton = async () => {
       <DropdownMenuTrigger asChild>
         <Image
           src={user?.user_metadata?.avatar_url ?? '/avatar.png'}
-          className='size-8 rounded-full'
+          className='size-8 rounded-full cursor-pointer'
           width={20}
           height={20}
           alt='avatar'
