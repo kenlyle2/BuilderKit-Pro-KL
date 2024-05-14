@@ -8,6 +8,7 @@ import InputWrapper from '../InputWrapper';
 import { cn } from '@/utils/utils';
 import { Input } from '../ui/input';
 import Image from 'next/image';
+import { FiUploadCloud } from 'react-icons/fi';
 
 type UploadReferenceImageProps = {
   image?: string | null;
@@ -39,11 +40,11 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
   });
 
   return (
-    <InputWrapper label='Image'>
+    <InputWrapper className='' label='Upload Image' description='Upload a photo of a room to improve'>
       <div
         {...getRootProps()}
         className={cn(
-          'border-2 border-dashed  rounded-lg p-1 text-center cursor-pointer',
+          'border border-light dark:border-dark rounded-lg p-1 cursor-pointer',
           image ? 'max-w-max h-64' : 'py-10'
         )}>
         <Input {...getInputProps()} />
@@ -59,9 +60,13 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
         )}
         {/* Placeholder to guide user to upload a reference image */}
         {!image && (
-          <p className='flex items-center justify-center text-sm opacity-50 h-full'>
-            Drag 'n' drop an image here, or click to select an image
-          </p>
+          <div className='flex flex-col items-center justify-center p-6 gap-4'>
+            <FiUploadCloud className='size-5' />
+            <div className='flex flex-col'>
+              <p className='text-blue font-semibold text-sm'>Click to upload</p>
+              <p className='text-light text-xs'>PNG, JPG (max. 4MB)</p>
+            </div>
+          </div>
         )}
       </div>
     </InputWrapper>

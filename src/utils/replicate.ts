@@ -10,7 +10,9 @@ const replicate = new Replicate({
 });
 
 export async function startGeneration(inputs: TypeGenerationInput): Promise<string> {
-  const { prompt, negativePrompt, noOfOutputs, scale, refImage } = inputs;
+  const { prompt, outputStyle, roomType, refImage } = inputs;
+
+  const negativePrompt = `a ${roomType} with ${outputStyle} style`;
 
   const origin = headers().get('origin');
 
@@ -22,12 +24,12 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
     input: {
       eta: 0,
       image: refImage,
-      scale,
+      scale: 20,
       prompt: prompt,
       a_prompt: 'best quality, extremely detailed',
       n_prompt: negativePrompt ?? '',
       ddim_steps: 20,
-      num_samples: noOfOutputs ?? 1,
+      num_samples: '4',
       value_threshold: 0.1,
       image_resolution: '512',
       detect_resolution: 512,
@@ -47,8 +49,7 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
 // Type definition for the input parameters required for the generation process.
 export type TypeGenerationInput = {
   prompt: string;
-  negativePrompt: string;
-  noOfOutputs?: string;
-  scale: number;
+  outputStyle: string;
+  roomType: string;
   refImage: string;
 };
