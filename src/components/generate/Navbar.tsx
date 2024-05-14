@@ -1,11 +1,9 @@
 // This component serves as the navigation bar for the application, which appears across various pages.
 // It dynamically adjusts to display different links based on the user's authentication status and screen size.
 
-import { cn } from '@/utils/utils';
-import { getUserDetails } from '@/utils/supabase/server';
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { HiBars3 } from 'react-icons/hi2';
-import { PiWarehouseDuotone } from 'react-icons/pi';
+import { IoIosHome } from 'react-icons/io';
 import { SelectTheme } from '../SelectTheme';
 import Logo from '../Logo';
 import Link from 'next/link';
@@ -38,9 +36,7 @@ export default async function Navbar() {
               <Logo />
 
               <div className='space-y-6 mt-8'>
-                <SheetClose>
-                  <NavItems />
-                </SheetClose>
+                <NavItems />
               </div>
             </SheetContent>
           </Sheet>
@@ -53,15 +49,15 @@ export default async function Navbar() {
 function NavItems() {
   return (
     <>
-      <Link href='/generate'>
-        <Button variant='outline' className='gap-1.5'>
+      <Link href='/generate' className='block w-full'>
+        <Button variant='outline' className='gap-1.5 w-full'>
           <FaPlus />
           New Room
         </Button>
       </Link>
-      <Link href='/history'>
-        <Button variant='outline' className='gap-1.5'>
-          <PiWarehouseDuotone />
+      <Link href='/history' className='block w-full'>
+        <Button variant='outline' className='gap-1.5 w-full'>
+          <IoIosHome />
           My Generated Rooms
         </Button>
       </Link>

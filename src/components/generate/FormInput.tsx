@@ -2,8 +2,7 @@
 
 'use client';
 
-import React, { ChangeEventHandler, FC, useEffect, useState } from 'react';
-import { SubmitButton } from '../SubmitButton';
+import React, { FC, useEffect, useState } from 'react';
 import { TypeInteriorDesign } from '@/types/types';
 import { toast } from '../ui/use-toast';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
@@ -13,7 +12,6 @@ import UploadReferenceImage from './UploadReferenceImage';
 import { Separator } from '../ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '../ui/textarea';
-
 import OutputStylesModal, { RoomTypes } from './OutputStylesModal';
 import OutputGeneration from './OutputGeneration';
 import { generateDesignFn } from '@/app/(dashboard)/generate/actions';
@@ -120,6 +118,17 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     };
   }, [predictionId, supabase, router]);
 
+  // Function to handle generation of random room
+  // TODO improve later
+  const handleRandomRoomGeneration = () => {
+    setFormData({
+      prompt: 'Generate a bedroom with a modern design',
+      image: 'https://i.pinimg.com/736x/1d/ca/70/1dca70b45500dfe77e36e138f1fd86b1.jpg',
+      roomType: 'bedroom',
+      outputStyle: 'Bohemian',
+    });
+  };
+
   return (
     <div className='p-4 md:px-8'>
       <p className='text-grey dark:text-white font-semibold mb-4'>Let’s create a room</p>
@@ -199,7 +208,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
             </Button>
           </div>
         </div>
-        <OutputGeneration data={generatedData!} />
+        <OutputGeneration data={generatedData!} handleRandomRoomGeneration={handleRandomRoomGeneration} />
       </div>
     </div>
   );

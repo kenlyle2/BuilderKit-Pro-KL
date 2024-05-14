@@ -1,11 +1,8 @@
 import HistoryGrid from '@/components/history/HistoryGrid';
 import { supabaseServerClient } from '@/utils/supabase/server';
-import Image from 'next/image';
 import React from 'react';
 
-type Props = {};
-
-const History = async (props: Props) => {
+const History = async () => {
   const supabase = supabaseServerClient();
 
   const { data } = await supabase
