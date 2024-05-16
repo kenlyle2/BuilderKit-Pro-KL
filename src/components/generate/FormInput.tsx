@@ -131,9 +131,9 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   return (
     <div className='p-4 md:px-8'>
-      <p className='text-grey dark:text-white font-semibold mb-4'>Let’s create a room</p>
+      <p className='text-default font-semibold mb-4'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
-        <div className='border border-light-grey dark:border-dark p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
+        <div className='border   p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
           <div className=''>
             <UploadReferenceImage
               image={formData.image}
@@ -160,7 +160,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
             <div className='mb-2'>
               <div className='flex items-center justify-between mb-2'>
-                <p className='text-grey dark:text-white font-medium text-sm'>Output style</p>
+                <p className='text-default font-medium text-sm'>Output style</p>
                 <OutputStylesModal
                   handleSelectRoom={(room) => setFormData({ ...formData, outputStyle: room })}
                   selected={formData.outputStyle}

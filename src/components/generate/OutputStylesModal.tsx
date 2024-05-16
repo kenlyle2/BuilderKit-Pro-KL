@@ -78,12 +78,12 @@ const OutputStylesModal: FC<OutputStylesModalProps> = ({ handleSelectRoom, selec
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <p className='text-light font-medium text-sm cursor-pointer'>View more</p>
+        <p className='text-subtle/70 font-medium text-sm cursor-pointer'>View more</p>
       </DialogTrigger>
       <DialogContent className='max-w-2xl gap-10'>
         <DialogHeader>
-          <DialogTitle className='text-grey text-lg font-semibold text-center'>Select Room style</DialogTitle>
-          <DialogDescription className='text-center text-sm text-light-gray'>
+          <DialogTitle className='text-default text-lg font-semibold text-center'>Select Room style</DialogTitle>
+          <DialogDescription className='text-center text-sm text-subtle'>
             Select the best room style for your room
           </DialogDescription>
         </DialogHeader>

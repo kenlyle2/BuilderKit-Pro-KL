@@ -44,7 +44,7 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
       <div
         {...getRootProps()}
         className={cn(
-          'border border-light dark:border-dark rounded-lg p-1 cursor-pointer',
+          'border rounded-lg p-1 cursor-pointer',
           image ? 'max-w-max h-64' : 'py-10'
         )}>
         <Input {...getInputProps()} />
@@ -63,8 +63,8 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
           <div className='flex flex-col items-center justify-center p-6 gap-4'>
             <FiUploadCloud className='size-5' />
             <div className='flex flex-col'>
-              <p className='text-blue font-semibold text-sm'>Click to upload</p>
-              <p className='text-light text-xs'>PNG, JPG (max. 4MB)</p>
+              <p className='text-primary text-center mb-1 font-semibold text-sm'>Click to upload</p>
+              <p className='text-subtle text-xs'>PNG, JPG (max. 4MB)</p>
             </div>
           </div>
         )}

@@ -49,20 +49,21 @@ export default async function Navbar() {
 function NavItems() {
   return (
     <>
-      <Link href='/generate' className='block w-full'>
-        <Button variant='outline' className='gap-1.5 w-full'>
+      <Link href='/generate' className='block'>
+        <Button variant='secondary' className='gap-2 w-full'>
           <FaPlus />
           New Room
         </Button>
       </Link>
-      <Link href='/history' className='block w-full'>
-        <Button variant='outline' className='gap-1.5 w-full'>
+      <Link href='/history' className='block'>
+        <Button variant='secondary' className='gap-2 w-full'>
+          {/* TODO change Icon */}
           <IoIosHome />
           My Generated Rooms
         </Button>
       </Link>
-      <Link href='https://apps.builderkit.ai/' target='_blank' className='block w-full'>
-        <Button variant='outline' className='gap-3 w-full'>
+      <Link href='https://apps.builderkit.ai/' className='block' target='_blank'>
+        <Button variant='secondary' className='gap-2 w-full'>
           Demo Apps
           <RxExternalLink />
         </Button>
