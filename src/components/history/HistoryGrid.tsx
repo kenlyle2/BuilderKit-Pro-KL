@@ -14,10 +14,10 @@ const HistoryGrid: FC<HistoryGridProps> = ({ data }) => {
   const router = useRouter();
 
   return (
-    <div className='px-4 md:px-8 mt-9'>
-      <p className='text-2xl font-medium text-default mb-6'>My Generated Rooms</p>
+    <div className='px-4 py-2'>
+      <p className='text-2xl font-medium text-default mb-4'>My Generated Rooms</p>
       {data && data.length > 0 ? (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[calc(100vh-132px)] overflow-auto'>
           {data.map((item) => (
             <div className='p-1.5 rounded-lg bg-border dark:bg-secondary' key={item.id}>
               <Image

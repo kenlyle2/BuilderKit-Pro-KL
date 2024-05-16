@@ -15,7 +15,7 @@ import { FaPlus } from 'react-icons/fa';
 export default async function Navbar() {
   return (
     <div className='w-full'>
-      <div className=' mx-auto flex justify-between items-center p-4 md:px-8 xl:py-4'>
+      <div className=' mx-auto flex justify-between items-center p-4'>
         <Logo />
 
         <div className='hidden md:flex items-center gap-3'>
