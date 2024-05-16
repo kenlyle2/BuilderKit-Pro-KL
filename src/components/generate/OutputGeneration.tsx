@@ -59,9 +59,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, handleRandomRoomGen
     <div className='border p-4 rounded-lg flex flex-col justify-center items-center w-full md:w-3/5 lg:w-4/5'>
       <div className='space-y-5 w-full md:max-w-sm flex flex-col justify-center items-center'>
         <NoStateIcon />
-        <p className='text-default font-semibold text-xl'>
-          Generated room will appear here
-        </p>
+        <p className='text-default font-semibold text-xl'>Generated room will appear here</p>
         <p className='text-center text-subtle text-sm'>
           Looks like you haven't created anything yet! Click the button and then click generate
         </p>

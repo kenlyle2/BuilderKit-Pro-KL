@@ -63,7 +63,7 @@ type OutputStylesModalProps = {
 const OutputStylesModal: FC<OutputStylesModalProps> = ({ handleSelectRoom, selected }) => {
   const [selectedRoom, setSelectedRoom] = useState<RoomType | null>({
     name: selected || 'Bohemian',
-  });
+  });  
 
   const handleRoomClick = (room: RoomType) => {
     setSelectedRoom(room);
@@ -82,14 +82,16 @@ const OutputStylesModal: FC<OutputStylesModalProps> = ({ handleSelectRoom, selec
       </DialogTrigger>
       <DialogContent className='max-w-2xl gap-10'>
         <DialogHeader>
-          <DialogTitle className='text-default text-lg font-semibold text-center'>Select Room style</DialogTitle>
+          <DialogTitle className='text-default text-lg font-semibold text-center'>
+            Select Room style
+          </DialogTitle>
           <DialogDescription className='text-center text-sm text-subtle'>
             Select the best room style for your room
           </DialogDescription>
         </DialogHeader>
 
         <div className=''>
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
             {RoomTypes.map((room, index) => (
               <div
                 key={index}
