@@ -120,13 +120,17 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   // Function to handle generation of random room
   // TODO improve later
-  const handleRandomRoomGeneration = () => {
+  const handleRandomRoomGeneration = async () => {
     setFormData({
       prompt: 'Generate a bedroom with a modern design',
       image: 'https://i.pinimg.com/736x/1d/ca/70/1dca70b45500dfe77e36e138f1fd86b1.jpg',
       roomType: 'bedroom',
       outputStyle: 'Bohemian',
     });
+
+    setTimeout(() => {
+      handleGeneration();
+    }, 1000);
   };
 
   return (
