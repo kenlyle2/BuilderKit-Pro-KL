@@ -14,7 +14,8 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
 
   const negativePrompt = `a ${roomType} with ${outputStyle} style`;
 
-  const origin = headers().get('origin');
+  // const origin = headers().get('origin');
+  const origin = "https://af38-150-107-241-238.ngrok-free.app"
 
   const prediction = await replicate.predictions.create({
     // Model version to use for the generation process. You can visit the model's URL on Replicate from the URL below and play around with the model.

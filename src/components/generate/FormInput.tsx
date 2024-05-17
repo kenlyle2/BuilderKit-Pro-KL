@@ -33,6 +33,15 @@ type FormFields = {
   outputStyle: string;
 };
 
+const roomOptions = [
+  { value: 'bedroom', label: 'Bedroom' },
+  { value: 'living-room', label: 'Living Room' },
+  { value: 'kitchen', label: 'Kitchen' },
+  { value: 'bathroom', label: 'Bathroom' },
+  { value: 'office', label: 'Office' },
+  { value: 'dining-room', label: 'Dining Room' },
+];
+
 const FormInput: FC<FormInputProps> = ({ data }) => {
   const supabase = supabaseBrowserClient();
   const router = useRouter();
@@ -56,6 +65,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     outputStyle: data?.outputStyle ?? '',
   });
   const [formData, setFormData] = useState<FormFields>(initialData);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Function to initiate the design generation process by calling generateDesignFn from server actions.
   const handleGeneration = async (
@@ -74,10 +84,14 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
       return;
     }
 
+    setIsLoading(true);
+
     const response = await generateDesignFn(prompt, outputStyle, roomType, image);
     // Handle response from the server action function.
     // If the response is a string then it is an error message, otherwise it is the prediction id.
     if (typeof response === 'string') {
+      setIsLoading(false);
+
       if (response.includes('Free time limit reached')) {
         toast({
           description: 'You have reached the free time limit.',
@@ -109,6 +123,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               id: payload.new.id,
               outputStyle: payload.new.output_style,
             });
+            setIsLoading(false);
             // Refresh the current page to reflect changes.
             router.replace(`generate/${payload.new.id}`);
             router.refresh();
@@ -145,7 +160,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
   };
 
   return (
-    <div className='px-4 py-2'>
+    <div>
       <p className='text-default font-semibold mb-2'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
         <div className='border   p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
@@ -164,12 +179,11 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                   <SelectValue placeholder='Choose' />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='bedroom'>Bedroom</SelectItem>
-                  <SelectItem value='living-room'>Living Room</SelectItem>
-                  <SelectItem value='kitchen'>Kitchen</SelectItem>
-                  <SelectItem value='bathroom'>Bathroom</SelectItem>
-                  <SelectItem value='office'>Office</SelectItem>
-                  <SelectItem value='dining-room'>Dining Room</SelectItem>
+                  {roomOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </InputWrapper>
@@ -219,7 +233,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
                 onChange={(e) => setFormData({ ...formData, prompt: e.target.value })}
               />
             </InputWrapper>
-            <SubmitButton className='w-full' formAction={handleGeneration}>
+            <SubmitButton className='w-full' isLoading={isLoading} formAction={handleGeneration}>
               Generate Image
             </SubmitButton>
           </form>

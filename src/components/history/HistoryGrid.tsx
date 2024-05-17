@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
 import NoStateIcon from '@/assets/icons/NoStateIcon';
+import Link from 'next/link';
+import { Button } from '../ui/button';
 
 type HistoryGridProps = {
   data: TypeInteriorDesign[];
@@ -14,7 +16,7 @@ const HistoryGrid: FC<HistoryGridProps> = ({ data }) => {
   const router = useRouter();
 
   return (
-    <div className='px-4 py-2'>
+    <div>
       <p className='text-2xl font-medium text-default mb-4'>My Generated Rooms</p>
       {data && data.length > 0 ? (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[calc(100vh-132px)] overflow-auto'>
@@ -37,7 +39,10 @@ const HistoryGrid: FC<HistoryGridProps> = ({ data }) => {
       ) : (
         <div className='flex flex-col items-center justify-center h-72'>
           <NoStateIcon />
-          <p className='text-lg text-default mt-5'>No history found</p>
+          <p className='text-lg text-subtle my-5'>No Room Available</p>
+          <Link href='/generate'>
+            <Button variant='default'>Generate New Rooms</Button>
+          </Link>
         </div>
       )}
     </div>

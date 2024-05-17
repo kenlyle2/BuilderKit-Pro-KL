@@ -20,8 +20,10 @@ export default async function Layout({ children }: Props) {
   return (
     // Wraps a ThemeProvider around the Navbar and children components. It allows user to switch between light and dark themes.
     <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
-      <Navbar />
-      {children}
+      <div className='px-4 md:px-8'>
+        <Navbar />
+        {children}
+      </div>
     </ThemeProvider>
   );
 }
