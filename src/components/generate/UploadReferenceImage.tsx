@@ -40,10 +40,13 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
   });
 
   return (
-    <InputWrapper className='' label='Upload Image' description='Upload a photo of a room to improve'>
+    <InputWrapper label='Upload Image' description='Upload a photo of a room to improve'>
       <div
         {...getRootProps()}
-        className={cn('border rounded-lg p-1 cursor-pointer object-fill', image ? 'max-w-max h-52' : 'py-10')}>
+        className={cn(
+          'border rounded-lg p-1 cursor-pointer object-fill',
+          image ? 'max-w-max h-52' : 'py-10'
+        )}>
         <Input {...getInputProps()} />
         {/* Display selected image */}
         {image && (

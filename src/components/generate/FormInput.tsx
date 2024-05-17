@@ -20,6 +20,7 @@ import { Badge } from '../ui/badge';
 import { cn } from '@/utils/utils';
 import { Button } from '../ui/button';
 import { BarLoader } from 'react-spinners';
+import { SubmitButton } from '../SubmitButton';
 
 type FormInputProps = {
   data?: TypeInteriorDesign;
@@ -44,7 +45,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     outputStyle: data?.outputStyle ?? '',
   };
 
-  const [isPending, setIsLoading] = useState<boolean>(false);
   const [predictionId, setPredictionId] = useState<string>();
   const [generatedData, setGeneratedData] = useState<{
     image_urls: string[];
@@ -58,15 +58,22 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
   const [formData, setFormData] = useState<FormFields>(initialData);
 
   // Function to initiate the design generation process by calling generateDesignFn from server actions.
-  const handleGeneration = async () => {
-    const { prompt, outputStyle, roomType, image } = formData;
+  const handleGeneration = async (
+    inputFormData: FormData,
+    randomOutputStyle?: string,
+    randomImage?: string
+  ) => {
+    const prompt = inputFormData.get('prompt');
+    const roomType = inputFormData.get('roomType');
+
+    const outputStyle = randomOutputStyle || formData.outputStyle;
+    const image = randomImage || formData.image;
 
     if (!prompt || !outputStyle || !roomType || !image) {
       toast({ description: 'Please enter all the required fields.', variant: 'destructive' });
       return;
     }
 
-    setIsLoading(true);
     const response = await generateDesignFn(prompt, outputStyle, roomType, image);
     // Handle response from the server action function.
     // If the response is a string then it is an error message, otherwise it is the prediction id.
@@ -79,7 +86,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
       } else {
         toast({ description: response, variant: 'destructive' });
       }
-      setIsLoading(false);
     } else {
       setPredictionId(response.id);
     }
@@ -103,7 +109,6 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               id: payload.new.id,
               outputStyle: payload.new.output_style,
             });
-            setIsLoading(false);
             // Refresh the current page to reflect changes.
             router.replace(`generate/${payload.new.id}`);
             router.refresh();
@@ -120,17 +125,23 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   // Function to handle generation of random room
   // TODO improve later
-  const handleRandomRoomGeneration = async () => {
-    setFormData({
+  const handleRandomRoomGeneration = () => {
+    const randomData = {
       prompt: 'Generate a bedroom with a modern design',
       image: 'https://i.pinimg.com/736x/1d/ca/70/1dca70b45500dfe77e36e138f1fd86b1.jpg',
       roomType: 'bedroom',
       outputStyle: 'Bohemian',
+    };
+
+    setFormData(randomData);
+
+    const formDataObject = new FormData();
+    Object.entries(randomData).forEach(([key, value]) => {
+      formDataObject.append(key, value);
     });
 
-    setTimeout(() => {
-      handleGeneration();
-    }, 1000);
+    // Call the handleGeneration function with the formData object
+    handleGeneration(formDataObject, randomData.outputStyle, randomData.image);
   };
 
   return (
@@ -138,7 +149,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
       <p className='text-default font-semibold mb-2'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
         <div className='border   p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
-          <div className=''>
+          <form>
             <UploadReferenceImage
               image={formData.image}
               onImageChange={(value) => setFormData({ ...formData, image: value })}
@@ -146,6 +157,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
             <Separator className='my-3' />
             <InputWrapper id='selectRoom' label='Select Room' className='mb-2'>
               <Select
+                name='roomType'
                 value={formData.roomType}
                 onValueChange={(value) => setFormData({ ...formData, roomType: value })}>
                 <SelectTrigger>
@@ -197,20 +209,20 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               </div>
             </div>
 
-            <InputWrapper id='instructions' label='Instructions' className='mb-4'>
+            <InputWrapper id='prompt' label='Instructions' className='mb-4'>
               <Textarea
-                id='instructions'
-                name='instructions'
+                id='prompt'
+                name='prompt'
                 placeholder='Enter additional prompt'
                 className='min-h-20'
                 value={formData.prompt}
                 onChange={(e) => setFormData({ ...formData, prompt: e.target.value })}
               />
             </InputWrapper>
-            <Button className='w-full' onClick={handleGeneration}>
-              {isPending ? <BarLoader height={1} color='white' /> : 'Generate'}
-            </Button>
-          </div>
+            <SubmitButton className='w-full' formAction={handleGeneration}>
+              Generate Image
+            </SubmitButton>
+          </form>
         </div>
         <OutputGeneration data={generatedData!} handleRandomRoomGeneration={handleRandomRoomGeneration} />
       </div>
