@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { TypeInteriorDesign } from '@/types/types';
 import { toast } from '../ui/use-toast';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
@@ -18,8 +18,6 @@ import { generateDesignFn } from '@/app/(dashboard)/generate/actions';
 import Image from 'next/image';
 import { Badge } from '../ui/badge';
 import { cn } from '@/utils/utils';
-import { Button } from '../ui/button';
-import { BarLoader } from 'react-spinners';
 import { SubmitButton } from '../SubmitButton';
 
 type FormInputProps = {
@@ -238,6 +236,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
             </SubmitButton>
           </form>
         </div>
+
         <OutputGeneration data={generatedData!} handleRandomRoomGeneration={handleRandomRoomGeneration} />
       </div>
     </div>
