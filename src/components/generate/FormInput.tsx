@@ -63,8 +63,8 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     randomOutputStyle?: string,
     randomImage?: string
   ) => {
-    const prompt = inputFormData.get('prompt');
-    const roomType = inputFormData.get('roomType');
+    const prompt = inputFormData.get('prompt') as string;
+    const roomType = inputFormData.get('roomType') as string;
 
     const outputStyle = randomOutputStyle || formData.outputStyle;
     const image = randomImage || formData.image;
