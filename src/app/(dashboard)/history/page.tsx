@@ -1,4 +1,4 @@
-import HistoryGrid from '@/components/history/HistoryGrid';
+import HistoryGrid from '@/components/dashboard/History';
 import { supabaseServerClient } from '@/utils/supabase/server';
 import React from 'react';
 

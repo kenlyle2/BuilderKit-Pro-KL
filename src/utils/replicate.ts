@@ -10,9 +10,7 @@ const replicate = new Replicate({
 });
 
 export async function startGeneration(inputs: TypeGenerationInput): Promise<string> {
-  const { prompt, outputStyle, roomType, refImage } = inputs;
-
-  const negativePrompt = `a ${roomType} with ${outputStyle} style`;
+  const { prompt, theme, roomType, refImage } = inputs;
 
   const origin = headers().get('origin');
 
@@ -24,16 +22,12 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
     input: {
       eta: 0,
       image: refImage,
-      scale: 20,
-      prompt: prompt,
-      a_prompt: 'best quality, extremely detailed',
-      n_prompt: negativePrompt ?? '',
-      ddim_steps: 20,
+      prompt: `A ${roomType} with ${theme} style. INSTRUCTION: ${prompt}`,
+      a_prompt:
+        'best quality, extremely detailed, photo from Pinterest, interior, cinematic photo, ultra-detailed, ultra-realistic, award-winning',
+      n_prompt:
+        'longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality',
       num_samples: '4',
-      value_threshold: 0.1,
-      image_resolution: '512',
-      detect_resolution: 512,
-      distance_threshold: 0.1,
     },
     // Webhook url where Replicate will send updates on the generation status/result.
     webhook: `${origin}/api/webhooks/replicate`,
@@ -49,7 +43,7 @@ export async function startGeneration(inputs: TypeGenerationInput): Promise<stri
 // Type definition for the input parameters required for the generation process.
 export type TypeGenerationInput = {
   prompt: string;
-  outputStyle: string;
+  theme: string;
   roomType: string;
   refImage: string;
 };

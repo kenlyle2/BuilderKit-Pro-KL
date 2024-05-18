@@ -7,11 +7,11 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 import { SubmitButton } from '../SubmitButton';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { signIn, signUp } from '@/app/login/actions';
-import { toast } from '../ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 
 interface EmailAuthProps {}
@@ -44,37 +44,23 @@ const EmailAuth: FC<EmailAuthProps> = () => {
   };
 
   return (
-    <form className='animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground mt-2'>
-      {!isLogin && (
-        <Input
-          id='full-name'
-          name='full-name'
-          placeholder='Name'
-          required
-          className='mb-2 h-11 border border-[#F1F1F1] bg-[#FCFBFB] dark:dark:border-[#1B1B1B] dark:bg-[#101010]'
-        />
-      )}
-      <Input
-        id='email'
-        name='email'
-        placeholder='Email'
-        required
-        className='mb-2 h-11 border border-[#F1F1F1] bg-[#FCFBFB] dark:dark:border-[#1B1B1B] dark:bg-[#101010]'
-      />
+    <form className='animate-in flex-1 flex flex-col w-full justify-center gap-4 text-foreground mt-2'>
+      {!isLogin && <Input id='full-name' name='full-name' placeholder='Name' required className='h-11' />}
+      <Input id='email' name='email' placeholder='Email' required className='h-11' />
       <Input
         id='password'
         type='password'
         name='password'
         placeholder='Password'
         required
-        className='mb-10 h-11 border border-[#F1F1F1] bg-[#FCFBFB] dark:dark:border-[#1B1B1B] dark:bg-[#101010]'
+        className='mb-8 h-11'
       />
 
       <SubmitButton formAction={handleFormAction} className='h-12'>
         {isLogin ? 'Sign In' : 'Sign Up'}
       </SubmitButton>
 
-      <div className='text-sm font-light text-center text-[#98A5A8] mt-4'>
+      <div className='text-sm font-light text-center text-subtle mt-2'>
         <span>{authStatusLabel}</span>
         <Button
           type='button'

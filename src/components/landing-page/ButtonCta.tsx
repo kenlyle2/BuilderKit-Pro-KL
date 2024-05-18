@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import { cn } from '@/utils/utils';
-import { buttonVariants } from '../ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { getUserDetails } from '@/utils/supabase/server';
 
 import { FC } from 'react';

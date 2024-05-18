@@ -4,8 +4,9 @@ import { TypeInteriorDesign } from '@/types/types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
-import NoStateImage from '../../assets/images/no-state-image.png';
 import NoStateIcon from '@/assets/icons/NoStateIcon';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 type HistoryGridProps = {
   data: TypeInteriorDesign[];
@@ -15,21 +16,22 @@ const HistoryGrid: FC<HistoryGridProps> = ({ data }) => {
   const router = useRouter();
 
   return (
-    <div className='px-4 md:px-8 mt-9'>
-      <p className='text-2xl font-medium text-[#362d2a] dark:text-white mb-6'>My Generated Rooms</p>
-      {data && data.length > 0 ? (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+    <div>
+      <h1 className='text-2xl font-medium text-default mb-4'>My Generated Rooms</h1>
+
+      {data?.length > 0 ? (
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 h-[calc(100vh-132px)] overflow-auto'>
           {data.map((item) => (
-            <div className='p-1.5 rounded-lg bg-[#F0F0F0] dark:bg-[#101010]' key={item.id}>
+            <div className='h-max p-1.5 rounded-lg bg-muted' key={item.id}>
               <Image
                 src={item?.image_urls?.[1] ?? ''}
                 alt='generated-room'
-                className='object-cover rounded-lg w-full h-72 cursor-pointer'
+                className='object-cover rounded-lg w-full h-64 cursor-pointer'
                 onClick={() => router.push(`/generate/${item.id}`)}
                 width={300}
                 height={300}
               />
-              <p className='text-xs font-medium text-grey dark:text-white capitalize mt-1.5 p-2 border border-[#F1F1F1] dark:border-dark bg-white dark:bg-[#161616] line-clamp-1 rounded'>
+              <p className='text-xs font-medium text-default capitalize mt-1.5 p-2 border truncate rounded bg-white dark:bg-border'>
                 {item.prompt}
               </p>
             </div>
@@ -38,7 +40,10 @@ const HistoryGrid: FC<HistoryGridProps> = ({ data }) => {
       ) : (
         <div className='flex flex-col items-center justify-center h-72'>
           <NoStateIcon />
-          <p className='text-lg text-gray-500 dark:text-gray-400'>No history found</p>
+          <p className='text-lg text-subtle my-5'>No Room Available</p>
+          <Link href='/generate'>
+            <Button variant='default'>Generate New Rooms</Button>
+          </Link>
         </div>
       )}
     </div>

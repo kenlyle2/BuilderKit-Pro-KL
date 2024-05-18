@@ -2,6 +2,7 @@
 // It is used across various parts of the application to provide a consistent way to return to the main page.
 
 'use client';
+
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ export default function Logo() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
-  const logoSrc = isHomePage || theme === 'dark' ? '/dark-logo.png' : '/light-logo.png';
+  const logoSrc = isHomePage || theme === 'light' ? '/dark-logo.png' : '/light-logo.png';
 
   return (
     <Link href='https://www.builderkit.ai/#pricing'>

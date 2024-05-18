@@ -14,22 +14,25 @@ import { AiOutlineDollarCircle } from 'react-icons/ai';
 import AccountSettings from './AccounSettings';
 import ButtonSignout from './ButtonSignout';
 
-const UserButton = async () => {
+const DropdownAccount = async () => {
   const user = await getUserDetails();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Image
-          src={user?.user_metadata?.avatar_url ?? '/avatar.png'}
-          className='size-8 rounded-full cursor-pointer'
-          width={20}
-          height={20}
-          alt='avatar'
-        />
+      <DropdownMenuTrigger className='w-full'>
+        <div className='h-10 md:h-auto flex items-center gap-2 px-4 md:px-0 rounded-md bg-secondary'>
+          <Image
+            src={user?.user_metadata?.avatar_url ?? '/avatar.png'}
+            className='size-5 md:size-8 rounded-full'
+            width={20}
+            height={20}
+            alt='avatar'
+          />
+          <p className='block md:hidden text-sm font-medium text-default'>{user?.user_metadata?.full_name}</p>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='rounded-lg m-2'>
-        <DropdownMenuItem className='flex items-start gap-3 overflow-hidden'>
+        <div className='flex items-center gap-3 overflow-hidden px-2 py-1.5'>
           <Image
             src={user?.user_metadata?.avatar_url ?? '/avatar.png'}
             className='size-10 rounded-full'
@@ -38,17 +41,17 @@ const UserButton = async () => {
             alt='avatar'
           />
           <div>
-            <p className='font-semibold text-grey dark:text-white'>{user?.user_metadata?.full_name}</p>
-            <p className='text-light-grey dark:text-white/90'>{user?.email}</p>
+            <p className='font-semibold text-default'>{user?.user_metadata?.full_name}</p>
+            <p className='text-default dark:text-white/90'>{user?.email}</p>
           </div>
-        </DropdownMenuItem>
+        </div>
         <DropdownMenuSeparator />
 
-        <AccountSettings />
+        <AccountSettings user={user!} />
         <DropdownMenuSeparator />
 
         <a href='mailto:vatsal1811@gmail.com'>
-          <DropdownMenuItem className='cursor-pointer text-grey dark:text-white'>
+          <DropdownMenuItem className='cursor-pointer text-default'>
             <AiOutlineQuestionCircle className='size-5 mr-2' />
             Support
           </DropdownMenuItem>
@@ -56,7 +59,7 @@ const UserButton = async () => {
 
         <DropdownMenuSeparator />
         <Link href='/pricing'>
-          <DropdownMenuItem className='cursor-pointer text-grey dark:text-white'>
+          <DropdownMenuItem className='cursor-pointer text-default'>
             <AiOutlineDollarCircle className='size-5 mr-2' />
             Pricing
           </DropdownMenuItem>
@@ -65,7 +68,7 @@ const UserButton = async () => {
 
         <ButtonSignout />
 
-        <div className='flex items-center m-2 mt-2.5 text-[12px] text-[#83888B]'>
+        <div className='flex items-center m-2 mt-2.5 text-xs text-subtle'>
           <a href=''>
             <span className='border-b'> Privacy policy</span> ,
             <span className='border-b'> Terms & conditions</span>
@@ -76,4 +79,4 @@ const UserButton = async () => {
   );
 };
 
-export default UserButton;
+export default DropdownAccount;

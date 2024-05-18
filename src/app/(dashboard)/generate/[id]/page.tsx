@@ -1,4 +1,4 @@
-import FormInput from '@/components/generate/FormInput';
+import FormInput from '@/components/dashboard/generate/FormInput';
 import { supabaseServerClient } from '@/utils/supabase/server';
 
 export default async function Generate({ params }: { params: { id: string } }) {

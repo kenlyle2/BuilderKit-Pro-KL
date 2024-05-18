@@ -48,9 +48,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
           {extraOption && <div className='w-4'>{extraOption}</div>}
           <div className='flex items-end gap-1 w-full'>
             {/* Display the label text with small font size. */}
-            {label && (
-              <p className={cn('leading-none text-sm text-grey dark:text-white font-medium')}>{label}</p>
-            )}
+            {label && <p className='text-sm leading-none font-medium text-default'>{label}</p>}
             {/* Comment text displayed next to the label. */}
             {comment && <p className='text-xs font-light text-gray-500'>({comment})</p>}
             {/* Info popover icon or component positioned on the far right. */}
@@ -61,7 +59,7 @@ const InputWrapper: FC<InputWrapperProps> = ({
       {/* Placeholder for form elements like input, textarea, etc. */}
       {children}
       {/* Description displayed below the children. */}
-      {description && <div className='text-xs font-medium text-light mt-1'>{description}</div>}
+      {description && <div className='text-xs font-light text-subtle mt-1'>{description}</div>}
       {/* Handles error message to be shown for the specified input */}
       {error && (
         <div className='text-xs mt-1 text-red-500 flex items-center gap-1.5'>

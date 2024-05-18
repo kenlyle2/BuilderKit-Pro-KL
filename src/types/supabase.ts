@@ -239,12 +239,11 @@ export type Database = {
           error: string | null;
           id: string;
           image_urls: string[] | null;
-          negative_prompt: string | null;
-          outputStyle: string | null;
           prediction_id: string;
           prompt: string;
           ref_image: string;
-          roomType: string | null;
+          room_type: string;
+          theme: string;
           user_id: string;
         };
         Insert: {
@@ -252,12 +251,11 @@ export type Database = {
           error?: string | null;
           id?: string;
           image_urls?: string[] | null;
-          negative_prompt?: string | null;
-          outputStyle?: string | null;
           prediction_id: string;
           prompt: string;
           ref_image: string;
-          roomType?: string | null;
+          room_type: string;
+          theme: string;
           user_id: string;
         };
         Update: {
@@ -265,12 +263,11 @@ export type Database = {
           error?: string | null;
           id?: string;
           image_urls?: string[] | null;
-          negative_prompt?: string | null;
-          outputStyle?: string | null;
           prediction_id?: string;
           prompt?: string;
           ref_image?: string;
-          roomType?: string | null;
+          room_type?: string;
+          theme?: string;
           user_id?: string;
         };
         Relationships: [

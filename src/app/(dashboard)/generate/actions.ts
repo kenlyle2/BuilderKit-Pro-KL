@@ -7,7 +7,7 @@ import { getUserDetails, supabaseServerClient } from '@/utils/supabase/server';
 // It validates user login, checks the provided form data, and starts the image generation process.
 export async function generateDesignFn(
   prompt: string,
-  outputStyle: string,
+  theme: string,
   roomType: string,
   imagePreview: string
 ) {
@@ -19,14 +19,14 @@ export async function generateDesignFn(
       throw 'Please login to Generate Designs.';
     }
 
-    if (!prompt || !outputStyle || !roomType || !imagePreview) {
+    if (!prompt || !theme || !roomType || !imagePreview) {
       throw 'Please enter all the required fields.';
     }
 
     // Calls the replicate function to start the generation process with the provided deisgn inputs.
     const predictionId = await startGeneration({
       prompt,
-      outputStyle,
+      theme,
       roomType,
       refImage: imagePreview,
     });
@@ -35,8 +35,8 @@ export async function generateDesignFn(
     const { error } = await supabase.from('interior_designs').insert({
       user_id: user.id,
       prompt,
-      outputStyle,
-      roomType,
+      theme,
+      room_type: roomType,
       ref_image: imagePreview,
       prediction_id: predictionId,
     });
