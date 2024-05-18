@@ -12,8 +12,7 @@ const replicate = new Replicate({
 export async function startGeneration(inputs: TypeGenerationInput): Promise<string> {
   const { prompt, theme, roomType, refImage } = inputs;
 
-  // const origin = headers().get('origin');
-  const origin = 'https://a7ba-2409-40e1-106d-9ed3-fdfd-1c2c-f0fd-af12.ngrok-free.app';
+  const origin = headers().get('origin');
 
   const prediction = await replicate.predictions.create({
     // Model version to use for the generation process. You can visit the model's URL on Replicate from the URL below and play around with the model.
