@@ -10,64 +10,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  Room1,
-  Room2,
-  Room3,
-  Room4,
-  Room5,
-  Room6,
-  Room7,
-  Room8,
-  Room9,
-  Room10,
-  Room11,
-  Room12,
-  Room13,
-  Room14,
-  Room15,
-} from '@/assets/images';
 import Image, { StaticImageData } from 'next/image';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/utils';
+import { roomThemes } from './content';
 
 type RoomType = {
   image?: StaticImageData;
   name: string;
 };
 
-export const RoomTypes = [
-  { image: Room1, name: 'Bohemian' },
-  { image: Room2, name: 'Scandinavian' },
-  { image: Room3, name: 'Mid-Century' },
-  { image: Room4, name: 'Minimalism' },
-  { image: Room5, name: 'Contemporary' },
-  { image: Room6, name: 'Industrial Style' },
-  { image: Room7, name: 'Modern' },
-  { image: Room8, name: 'Eclectic' },
-  { image: Room9, name: 'Modern Farmhouse' },
-  { image: Room10, name: 'Shabby Chic' },
-  { image: Room11, name: 'Coastal Interior' },
-  { image: Room12, name: 'Hollywood Glam' },
-  { image: Room13, name: 'Rustic' },
-  { image: Room14, name: 'French Country' },
-  { image: Room15, name: 'Mediterranean' },
-];
-
-type OutputStylesModalProps = {
+type ModalSelectRoomThemeProps = {
   handleSelectRoom: (data: string) => void;
   selected: string;
 };
 
-const OutputStylesModal: FC<OutputStylesModalProps> = ({ handleSelectRoom, selected }) => {
+const ModalSelectRoomTheme: FC<ModalSelectRoomThemeProps> = ({ handleSelectRoom, selected }) => {
   const [selectedRoom, setSelectedRoom] = useState<RoomType | null>({
     name: selected || 'Bohemian',
   });
-
-  const handleRoomClick = (room: RoomType) => {
-    setSelectedRoom(room);
-  };
 
   const handleSave = () => {
     if (selectedRoom) {
@@ -77,8 +39,8 @@ const OutputStylesModal: FC<OutputStylesModalProps> = ({ handleSelectRoom, selec
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <p className='text-subtle/70 font-medium text-sm cursor-pointer'>View more</p>
+      <DialogTrigger>
+        <p className='text-subtle/70 font-medium text-sm'>View more</p>
       </DialogTrigger>
       <DialogContent className='max-w-2xl gap-10'>
         <DialogHeader>
@@ -92,10 +54,10 @@ const OutputStylesModal: FC<OutputStylesModalProps> = ({ handleSelectRoom, selec
 
         <div>
           <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
-            {RoomTypes.map((room, index) => (
+            {roomThemes.map((room, index) => (
               <div
                 key={index}
-                onClick={() => handleRoomClick(room)}
+                onClick={() => setSelectedRoom(room)}
                 className={cn(
                   'relative flex flex-col justify-center items-center cursor-pointer border-4 border-transparent',
                   selectedRoom?.name === room.name && 'border-blue-600 rounded-lg'
@@ -131,4 +93,4 @@ const OutputStylesModal: FC<OutputStylesModalProps> = ({ handleSelectRoom, selec
   );
 };
 
-export default OutputStylesModal;
+export default ModalSelectRoomTheme;

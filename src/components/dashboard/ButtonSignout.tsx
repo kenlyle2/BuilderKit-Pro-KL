@@ -4,8 +4,8 @@
 import { FC } from 'react';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { DropdownMenuItem } from '../ui/dropdown-menu';
 import { FiLogOut } from 'react-icons/fi';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 interface ButtonSignoutProps {
   className?: string;

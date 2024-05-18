@@ -7,11 +7,11 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 import { SubmitButton } from '../SubmitButton';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { signIn, signUp } from '@/app/login/actions';
-import { toast } from '../ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 
 interface EmailAuthProps {}

@@ -1,3 +1,4 @@
+import { toast } from '@/components/ui/use-toast';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -6,6 +7,9 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const errorToast = (description: string, title?: string) =>
+  toast({ title, description, variant: 'destructive' });
 
 // Helper function: image download
 function forceDownload(blobUrl: string, filename: string) {

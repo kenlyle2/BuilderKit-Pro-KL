@@ -4,21 +4,21 @@
 
 import { FC, useEffect, useState } from 'react';
 import { TypeInteriorDesign } from '@/types/types';
-import { toast } from '../ui/use-toast';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import InputWrapper from '../InputWrapper';
+import InputWrapper from '@/components/InputWrapper';
 import UploadReferenceImage from './UploadReferenceImage';
-import { Separator } from '../ui/separator';
+import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '../ui/textarea';
-import OutputStylesModal, { RoomTypes } from './OutputStylesModal';
+import { Textarea } from '@/components/ui/textarea';
+import ModalSelectRoomTheme from './ModalSelectRoomTheme';
 import OutputGeneration from './OutputGeneration';
 import { generateDesignFn } from '@/app/(dashboard)/generate/actions';
 import Image from 'next/image';
-import { Badge } from '../ui/badge';
-import { cn } from '@/utils/utils';
-import { SubmitButton } from '../SubmitButton';
+import { Badge } from '@/components/ui/badge';
+import { cn, errorToast } from '@/utils/utils';
+import { SubmitButton } from '@/components/SubmitButton';
+import { roomOptions, roomThemes } from './content';
 
 type FormInputProps = {
   data?: TypeInteriorDesign;
@@ -28,17 +28,8 @@ type FormFields = {
   prompt: string;
   image: string;
   roomType: string;
-  outputStyle: string;
+  theme: string;
 };
-
-const roomOptions = [
-  { value: 'bedroom', label: 'Bedroom' },
-  { value: 'living-room', label: 'Living Room' },
-  { value: 'kitchen', label: 'Kitchen' },
-  { value: 'bathroom', label: 'Bathroom' },
-  { value: 'office', label: 'Office' },
-  { value: 'dining-room', label: 'Dining Room' },
-];
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
   const supabase = supabaseBrowserClient();
@@ -48,59 +39,70 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
   const initialData: FormFields = {
     prompt: data?.prompt ?? '',
     image: data?.ref_image ?? '',
-    roomType: data?.roomType ?? '',
-    outputStyle: data?.outputStyle ?? '',
+    roomType: data?.room_type ?? roomOptions[0].value,
+    theme: data?.theme ?? roomThemes[0].name,
   };
 
   const [predictionId, setPredictionId] = useState<string>();
   const [generatedData, setGeneratedData] = useState<{
     image_urls: string[];
     id: string;
-    outputStyle: string;
+    theme: string;
   }>({
     image_urls: data?.image_urls ?? [],
     id: data?.id ?? '',
-    outputStyle: data?.outputStyle ?? '',
+    theme: data?.theme ?? '',
   });
   const [formData, setFormData] = useState<FormFields>(initialData);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Function to initiate the design generation process by calling generateDesignFn from server actions.
-  const handleGeneration = async (
-    inputFormData: FormData,
-    randomOutputStyle?: string,
-    randomImage?: string
-  ) => {
+  const handleGeneration = async (inputFormData: FormData) => {
     const prompt = inputFormData.get('prompt') as string;
     const roomType = inputFormData.get('roomType') as string;
 
-    const outputStyle = randomOutputStyle || formData.outputStyle;
-    const image = randomImage || formData.image;
+    const randomTheme = inputFormData.get('theme') as string;
+    const randomImage = inputFormData.get('image') as string;
 
-    if (!prompt || !outputStyle || !roomType || !image) {
-      toast({ description: 'Please enter all the required fields.', variant: 'destructive' });
+    const theme = randomTheme ?? formData.theme;
+    const image = randomImage ?? formData.image;
+
+    if (!prompt || !theme || !roomType || !image) {
+      errorToast('Please enter all the required fields.');
       return;
     }
 
     setIsLoading(true);
 
-    const response = await generateDesignFn(prompt, outputStyle, roomType, image);
+    const response = await generateDesignFn(prompt, theme, roomType, image);
     // Handle response from the server action function.
     // If the response is a string then it is an error message, otherwise it is the prediction id.
     if (typeof response === 'string') {
+      errorToast(response);
       setIsLoading(false);
-
-      if (response.includes('Free time limit reached')) {
-        toast({
-          description: 'You have reached the free time limit.',
-          variant: 'destructive',
-        });
-      } else {
-        toast({ description: response, variant: 'destructive' });
-      }
     } else {
       setPredictionId(response.id);
     }
+  };
+
+  // Function to handle generation of random room
+  const handleRandomRoomGeneration = () => {
+    const randomData = {
+      prompt: 'Generate a bedroom with a modern design',
+      image: 'https://i.pinimg.com/736x/1d/ca/70/1dca70b45500dfe77e36e138f1fd86b1.jpg',
+      roomType: 'bedroom',
+      theme: 'Bohemian',
+    };
+
+    setFormData(randomData);
+
+    const formDataObject = new FormData();
+    Object.entries(randomData).forEach(([key, value]) => {
+      formDataObject.append(key, value);
+    });
+
+    // Call the handleGeneration function with the formData object
+    handleGeneration(formDataObject);
   };
 
   // Relatime Subscribes to database changes to receive updates on design generation status and results.
@@ -119,7 +121,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
             setGeneratedData({
               image_urls: payload.new.image_urls,
               id: payload.new.id,
-              outputStyle: payload.new.output_style,
+              theme: payload.new.output_style,
             });
             setIsLoading(false);
             // Refresh the current page to reflect changes.
@@ -136,39 +138,21 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
     };
   }, [predictionId, supabase, router]);
 
-  // Function to handle generation of random room
-  // TODO improve later
-  const handleRandomRoomGeneration = () => {
-    const randomData = {
-      prompt: 'Generate a bedroom with a modern design',
-      image: 'https://i.pinimg.com/736x/1d/ca/70/1dca70b45500dfe77e36e138f1fd86b1.jpg',
-      roomType: 'bedroom',
-      outputStyle: 'Bohemian',
-    };
-
-    setFormData(randomData);
-
-    const formDataObject = new FormData();
-    Object.entries(randomData).forEach(([key, value]) => {
-      formDataObject.append(key, value);
-    });
-
-    // Call the handleGeneration function with the formData object
-    handleGeneration(formDataObject, randomData.outputStyle, randomData.image);
-  };
-
   return (
     <div>
       <p className='text-default font-semibold mb-2'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
-        <div className='border   p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
+        <div className='border p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
           <form>
             <UploadReferenceImage
               image={formData.image}
               onImageChange={(value) => setFormData({ ...formData, image: value })}
             />
-            <Separator className='my-3' />
-            <InputWrapper id='selectRoom' label='Select Room' className='mb-2'>
+
+            <Separator className='my-4' />
+
+            {/* Select toom type */}
+            <InputWrapper id='selectRoom' label='Select Room' className='mb-4'>
               <Select
                 name='roomType'
                 value={formData.roomType}
@@ -186,23 +170,25 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               </Select>
             </InputWrapper>
 
-            <div className='mb-2'>
+            {/* Section to select room theme */}
+            <div className='mb-4'>
               <div className='flex items-center justify-between mb-2'>
-                <p className='text-default font-medium text-sm'>Output style</p>
-                <OutputStylesModal
-                  handleSelectRoom={(room) => setFormData({ ...formData, outputStyle: room })}
-                  selected={formData.outputStyle}
+                <p className='text-default font-medium text-sm'>Room Theme</p>
+                <ModalSelectRoomTheme
+                  handleSelectRoom={(room) => setFormData({ ...formData, theme: room })}
+                  selected={formData.theme}
                 />
               </div>
 
               <div className='overflow-x-auto flex flex-nowrap gap-2'>
-                {RoomTypes.map((room, index) => (
+                {/* Show first 5, and rest in the modal when view more. */}
+                {roomThemes.slice(0, 5).map((room, index) => (
                   <div
                     key={index}
-                    onClick={() => setFormData((prev) => ({ ...prev, outputStyle: room.name }))}
+                    onClick={() => setFormData((prev) => ({ ...prev, theme: room.name }))}
                     className={cn(
                       'relative flex flex-col justify-center items-center cursor-pointer border-4 border-transparent w-36',
-                      formData.outputStyle === room.name && 'border-blue-600 rounded-lg'
+                      formData.theme === room.name && 'border-blue-600 rounded-lg'
                     )}>
                     <div className='w-32 h-28 rounded overflow-hidden'>
                       <Image
@@ -221,22 +207,25 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
               </div>
             </div>
 
+            {/* Prompt input */}
             <InputWrapper id='prompt' label='Instructions' className='mb-4'>
               <Textarea
                 id='prompt'
                 name='prompt'
-                placeholder='Enter additional prompt'
-                className='min-h-20'
+                placeholder='Enter prompt'
                 value={formData.prompt}
                 onChange={(e) => setFormData({ ...formData, prompt: e.target.value })}
               />
             </InputWrapper>
+
+            {/* Generate button */}
             <SubmitButton className='w-full' isLoading={isLoading} formAction={handleGeneration}>
               Generate Image
             </SubmitButton>
           </form>
         </div>
 
+        {/* Display output */}
         <OutputGeneration
           isLoading={isLoading}
           data={generatedData!}

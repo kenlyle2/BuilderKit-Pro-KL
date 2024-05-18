@@ -14,16 +14,23 @@ import { AiOutlineDollarCircle } from 'react-icons/ai';
 import AccountSettings from './AccounSettings';
 import ButtonSignout from './ButtonSignout';
 
-type DropdownAccountProps = {
-  children: React.ReactNode;
-};
-
-const DropdownAccount = async ({ children }: DropdownAccountProps) => {
+const DropdownAccount = async () => {
   const user = await getUserDetails();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuTrigger className='w-full'>
+        <div className='h-10 md:h-auto flex items-center gap-2 px-4 md:px-0 rounded-md bg-secondary'>
+          <Image
+            src={user?.user_metadata?.avatar_url ?? '/avatar.png'}
+            className='size-5 md:size-8 rounded-full'
+            width={20}
+            height={20}
+            alt='avatar'
+          />
+          <p className='block md:hidden text-sm font-medium text-default'>{user?.user_metadata?.full_name}</p>
+        </div>
+      </DropdownMenuTrigger>
       <DropdownMenuContent className='rounded-lg m-2'>
         <div className='flex items-center gap-3 overflow-hidden px-2 py-1.5'>
           <Image
@@ -40,7 +47,7 @@ const DropdownAccount = async ({ children }: DropdownAccountProps) => {
         </div>
         <DropdownMenuSeparator />
 
-        <AccountSettings />
+        <AccountSettings user={user!} />
         <DropdownMenuSeparator />
 
         <a href='mailto:vatsal1811@gmail.com'>

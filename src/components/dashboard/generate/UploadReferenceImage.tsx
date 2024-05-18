@@ -4,9 +4,8 @@
 
 import { FC } from 'react';
 import { useDropzone } from 'react-dropzone';
-import InputWrapper from '../InputWrapper';
-import { cn } from '@/utils/utils';
-import { Input } from '../ui/input';
+import InputWrapper from '@/components/InputWrapper';
+import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { FiUploadCloud } from 'react-icons/fi';
 
@@ -32,7 +31,7 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
 
   // Functions to handle the image drop and upload through react-dropzone library
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { 'image/*': ['image/jpeg', 'image/png', 'image/gif'] },
+    accept: { 'image/*': ['image/jpeg', 'image/jpg', 'image/png'] },
     multiple: false,
     onDrop,
     minSize: 1,
@@ -41,13 +40,9 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
 
   return (
     <InputWrapper label='Upload Image' description='Upload a photo of a room to improve'>
-      <div
-        {...getRootProps()}
-        className={cn(
-          'border rounded-lg p-1 cursor-pointer object-fill',
-          image ? 'max-w-max h-52' : 'py-10'
-        )}>
+      <div {...getRootProps()} className='w-full h-44 border rounded-lg p-1 cursor-pointer object-fill'>
         <Input {...getInputProps()} />
+
         {/* Display selected image */}
         {image && (
           <Image
@@ -55,9 +50,10 @@ const UploadReferenceImage: FC<UploadReferenceImageProps> = ({ image, onImageCha
             alt='Dropped Image'
             height={256}
             width={256}
-            className='w-auto flex justify-center h-full rounded-sm'
+            className='size-full flex justify-center rounded-sm'
           />
         )}
+
         {/* Placeholder to guide user to upload a reference image */}
         {!image && (
           <div className='flex flex-col items-center justify-center p-6 gap-4'>

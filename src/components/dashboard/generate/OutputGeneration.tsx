@@ -8,14 +8,14 @@ import React, { FC } from 'react';
 import downloadImage from '@/utils/utils';
 import { TbDownload } from 'react-icons/tb';
 import Image from 'next/image';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { TiArrowShuffle } from 'react-icons/ti';
-import { Badge } from '../ui/badge';
+import { Badge } from '@/components/ui/badge';
 import NoStateIcon from '@/assets/icons/NoStateIcon';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 type OutputGenerationProps = {
-  data: { image_urls: string[]; id: string; outputStyle: string };
+  data: { image_urls: string[]; id: string; theme: string };
   handleRandomRoomGeneration: () => void;
   isLoading?: boolean;
 };
@@ -53,7 +53,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, handleRandomRoomGen
               />
 
               <Badge variant='transparent' className='absolute bottom-2'>
-                {data.outputStyle}
+                {data.theme}
               </Badge>
               {/* Download option on hover to a specific design */}
               <div className='absolute inset-0 bg-black/30 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-auto cursor-pointer'>
@@ -69,7 +69,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, handleRandomRoomGen
           ))}
         </div>
       ) : (
-        <div className='flex flex-col justify-center items-center w-full h-full'>
+        <div className='size-full flex flex-col justify-center items-center'>
           <div className='space-y-5 w-full md:max-w-sm flex flex-col justify-center items-center'>
             <NoStateIcon />
             <p className='text-default font-semibold text-xl'>Generated Room will appear here</p>
