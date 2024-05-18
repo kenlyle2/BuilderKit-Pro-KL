@@ -237,7 +237,11 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
           </form>
         </div>
 
-        <OutputGeneration data={generatedData!} handleRandomRoomGeneration={handleRandomRoomGeneration} />
+        <OutputGeneration
+          isLoading={isLoading}
+          data={generatedData!}
+          handleRandomRoomGeneration={handleRandomRoomGeneration}
+        />
       </div>
     </div>
   );
