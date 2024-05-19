@@ -66,11 +66,16 @@
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%), rgba(50, 103, 78, 0.37);
 }
 
-.pricing-header {
+.header-gradient {
   background: linear-gradient(180deg, #fff 22.5%, rgba(255, 255, 255, 0.7) 100%);
-  -webkit-background-clip: text;
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.grey-gradient {
+  background: linear-gradient(180deg, #fff 22.5%, rgba(255, 255, 255, 0.7) 100%);
+  background-clip: text;
 }
 
 .social-background {

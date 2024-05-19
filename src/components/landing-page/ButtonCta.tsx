@@ -4,9 +4,8 @@
 
 import Link from 'next/link';
 import { cn } from '@/utils/utils';
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '../ui/button';
 import { getUserDetails } from '@/utils/supabase/server';
-
 import { FC } from 'react';
 
 interface ButtonCtaProps {
@@ -24,7 +23,7 @@ const ButtonCta: FC<ButtonCtaProps> = async ({ className, label }) => {
       href={user == null ? '/login' : '/generate'}
       className={cn(
         buttonVariants({ variant: 'default' }),
-        'rounded-lg border border-[#51DCA3] green-btn-gradient',
+        'rounded-lg border border-lp-border green-btn-gradient',
         className
       )}>
       {buttonLabel}
