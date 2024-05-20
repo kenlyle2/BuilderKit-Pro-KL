@@ -48,7 +48,9 @@ Ensure you have the following installed:
    yarn install
    ```
 
-3. **Environment Variables:** Create a `.env.local` file in the root directory and add the following variables:
+3. **Environment Variables:**
+
+   Create a `.env.local` file in the root directory and add the following variables:
 
    ```plaintext
    NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
@@ -90,11 +92,13 @@ Ensure you have the following installed:
    This command compiles the application for production usage.
 
 3. **Start the production server:**
+
    ```sh
    npm start
    # or
    yarn start
    ```
+
    This will start the application in production mode.
 
 ### Additional Scripts
