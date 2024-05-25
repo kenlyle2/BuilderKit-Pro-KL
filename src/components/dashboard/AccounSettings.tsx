@@ -12,6 +12,7 @@ import { FiArrowUpRight } from 'react-icons/fi';
 import Link from 'next/link';
 import { LuUser } from 'react-icons/lu';
 import { User } from '@supabase/supabase-js';
+import ModalUpgradePlan from './generate/ModalUpgradePlan';
 
 const AccountSettings = async ({ user }: { user: User }) => {
   return (
@@ -47,12 +48,7 @@ const AccountSettings = async ({ user }: { user: User }) => {
                 <p className='font-medium text-subtle text-base'>Current Plan</p>
                 <p className='font-semibold text-default'>Free</p>
               </div>
-              <Link href='/pricing'>
-                <Button variant='destructive' className='gap-2 py-4 text-sm font-semibold'>
-                  Upgrade Plan
-                  <FiArrowUpRight className='size-4' />
-                </Button>
-              </Link>
+              <ModalUpgradePlan />
             </div>
           </div>
         </div>
