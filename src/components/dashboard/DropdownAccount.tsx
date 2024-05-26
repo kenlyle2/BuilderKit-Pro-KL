@@ -20,15 +20,15 @@ const DropdownAccount = async () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='w-full'>
-        <div className='h-10 md:h-auto flex items-center gap-2 px-4 md:px-0 rounded-md bg-secondary'>
+        <div className='h-10 lg:h-auto flex items-center gap-2 px-4 lg:px-0 rounded-md bg-secondary'>
           <Image
             src={user?.user_metadata?.avatar_url ?? '/avatar.png'}
-            className='size-5 md:size-8 rounded-full'
+            className='size-5 lg:size-8 rounded-full'
             width={20}
             height={20}
             alt='avatar'
           />
-          <p className='block md:hidden text-sm font-medium text-default'>{user?.user_metadata?.full_name}</p>
+          <p className='block lg:hidden text-sm font-medium text-default'>{user?.user_metadata?.full_name}</p>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='rounded-lg m-2'>
