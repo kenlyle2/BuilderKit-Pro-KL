@@ -7,9 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { FiArrowUpRight } from 'react-icons/fi';
-import Link from 'next/link';
 import { LuUser } from 'react-icons/lu';
 import { User } from '@supabase/supabase-js';
 import ModalUpgradePlan from './generate/ModalUpgradePlan';
