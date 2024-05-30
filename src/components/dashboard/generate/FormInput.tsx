@@ -82,6 +82,12 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   // Function to initiate the design generation process by calling generateDesignFn from server actions.
   const handleGeneration = async (inputFormData: FormData) => {
+    if (limitExceeded) {
+      return toast({
+        description: 'You have reached the limit of content creations. Please upgrade to continue.',
+        variant: 'destructive',
+      });
+    }
     const prompt = inputFormData.get('prompt') as string;
     const roomType = inputFormData.get('roomType') as string;
 
@@ -164,7 +170,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   return (
     <div>
-      <ModalLimitExceeded isModalOpen={limitExceeded} />
+      {limitExceeded && <ModalLimitExceeded isModalOpen={limitExceeded} />}
       <p className='text-default font-semibold mb-2'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
         <div className='border p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
