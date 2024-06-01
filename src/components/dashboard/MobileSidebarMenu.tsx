@@ -6,14 +6,15 @@ import DropdownAccount from './DropdownAccount';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { navItems } from './Navbar';
+import { RxExternalLink } from 'react-icons/rx';
 
 interface MobileSidebarMenuProps {}
 
 const MobileSidebarMenu: FC<MobileSidebarMenuProps> = () => {
   return (
-    <div className='flex md:hidden items-center gap-2'>
+    <div className='flex lg:hidden items-center gap-2'>
       <Sheet>
-        <SheetTrigger className='block md:hidden'>
+        <SheetTrigger className='block lg:hidden'>
           <HiBars3 />
         </SheetTrigger>
 
@@ -31,6 +32,13 @@ const MobileSidebarMenu: FC<MobileSidebarMenuProps> = () => {
                 </Link>
               </SheetClose>
             ))}
+
+            <Link href='https://www.builderkit.ai/#pricing' target='_blank'>
+              <Button className='gap-2 border border-destructive/10 bg-destructive/10 dark:bg-destructive/20 text-destructive shadow-none w-full mt-3 justify-start'>
+                Get Builderkit.ai
+                <RxExternalLink />
+              </Button>
+            </Link>
 
             <DropdownAccount />
           </div>
