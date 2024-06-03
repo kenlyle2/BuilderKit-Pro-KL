@@ -37,7 +37,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
   const supabase = supabaseBrowserClient();
 
   // State to check if the user has reached the limit of content creations
-  const [limitExceeded, setIsLimitExceeded] = useState(false);
+  const [hasLimitExceeded, setHasLimitExceeded] = useState(true);
   const router = useRouter();
 
   //function to check the limit of content creations and set the state accordingly
@@ -50,9 +50,9 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
       return toast({ description: error.message, variant: 'destructive' });
     }
     if (count && count >= 5) {
-      setIsLimitExceeded(true);
+      setHasLimitExceeded(true);
     }
-  }, []);
+  }, [supabase]);
 
   //checking on load if the user has reached the limit of content creations
   useEffect(() => {
@@ -82,7 +82,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   // Function to initiate the design generation process by calling generateDesignFn from server actions.
   const handleGeneration = async (inputFormData: FormData) => {
-    if (limitExceeded) {
+    if (hasLimitExceeded) {
       return toast({
         description: 'You have reached the limit of content creations. Please upgrade to continue.',
         variant: 'destructive',
@@ -170,7 +170,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   return (
     <div>
-      {limitExceeded && <ModalLimitExceeded isModalOpen={limitExceeded} />}
+      <ModalLimitExceeded isModalOpen={hasLimitExceeded} />
       <p className='text-default font-semibold mb-2'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
         <div className='border p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
@@ -253,7 +253,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
             <SubmitButton
               className='w-full'
               isLoading={isLoading}
-              disabled={limitExceeded}
+              disabled={hasLimitExceeded}
               formAction={handleGeneration}>
               Generate Image
             </SubmitButton>
@@ -264,6 +264,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
         <OutputGeneration
           isLoading={isLoading}
           data={generatedData!}
+          disabled={hasLimitExceeded}
           handleRandomRoomGeneration={handleRandomRoomGeneration}
         />
       </div>
