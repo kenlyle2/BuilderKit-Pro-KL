@@ -18,13 +18,19 @@ type OutputGenerationProps = {
   data: { image_urls: string[]; id: string; theme: string };
   handleRandomRoomGeneration: () => void;
   isLoading?: boolean;
+  disabled?: boolean;
 };
 
 // Shows a blurred image while the actual image is loading.
 const blurImageDataUrl =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEXSURBVHgBVZDPSsNAEMa//dP8WVOheFToJejBKh7E4hMIXn0FwcfwrQSvPoFevFQUIdrE0NBTXRPTcbJrxc4yLHzz229nRtzd3lCy2YdJ+og5oyiG1hpSKwhICAEXWrGgdYBeEPLdg1TKp5AOEL8kaxqqc+Ci4tr8PcP11SUuzs/+IO/YAdq70HeLx4d7JIMBtmyNpq4RhKEHheQ+GArDCDGL6f4I6egQL08TlHmO7eHQg0RLgLgHfmCbBvOiwPQtg+2K/NMqZFM3WLYtiAgbxiCvKuzs7kGsBmETZ0RuIp6CtS+7wPHJGCaKYGLTkcz4o4/Gp8wIB05fn5FNuLfyA0VZIl0cwNpPtzZRzWYknDthPVj5J/0AA1VXn/cQBtkAAAAASUVORK5CYII=';
 
-const OutputGeneration: FC<OutputGenerationProps> = ({ data, handleRandomRoomGeneration, isLoading }) => {
+const OutputGeneration: FC<OutputGenerationProps> = ({
+  data,
+  handleRandomRoomGeneration,
+  isLoading,
+  disabled,
+}) => {
   return (
     <div className='border p-4 rounded-lg w-full md:w-3/5 lg:w-4/5 my-5 md:my-0'>
       {isLoading ? (
@@ -76,7 +82,7 @@ const OutputGeneration: FC<OutputGenerationProps> = ({ data, handleRandomRoomGen
             <p className='text-center text-subtle text-sm'>
               Looks like you haven't created anything yet! Click the button and then click generate
             </p>
-            <Button className='gap-2' onClick={handleRandomRoomGeneration}>
+            <Button className='gap-2' onClick={handleRandomRoomGeneration} disabled={disabled}>
               <TiArrowShuffle />
               Generate random room
             </Button>
