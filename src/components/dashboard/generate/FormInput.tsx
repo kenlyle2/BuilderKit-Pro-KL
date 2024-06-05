@@ -35,7 +35,7 @@ type FormFields = {
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
   const [hasLimitExceeded, setHasLimitExceeded] = useState(false);
-  
+
   const supabase = supabaseBrowserClient();
   const router = useRouter();
 
@@ -169,7 +169,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   return (
     <div>
-      <ModalLimitExceeded isModalOpen={hasLimitExceeded} />
+      {hasLimitExceeded && <ModalLimitExceeded isModalOpen={hasLimitExceeded} />}
       <p className='text-default font-semibold mb-2'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
         <div className='border p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
