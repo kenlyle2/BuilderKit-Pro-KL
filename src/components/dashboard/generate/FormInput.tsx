@@ -34,10 +34,9 @@ type FormFields = {
 };
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
+  const [hasLimitExceeded, setHasLimitExceeded] = useState(false);
+  
   const supabase = supabaseBrowserClient();
-
-  // State to check if the user has reached the limit of content creations
-  const [hasLimitExceeded, setHasLimitExceeded] = useState(true);
   const router = useRouter();
 
   //function to check the limit of content creations and set the state accordingly
