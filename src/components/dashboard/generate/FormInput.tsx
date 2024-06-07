@@ -2,7 +2,7 @@
 
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { TypeInteriorDesign } from '@/types/types';
 import { supabaseBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -19,6 +19,8 @@ import { Badge } from '@/components/ui/badge';
 import { cn, errorToast } from '@/utils/utils';
 import { SubmitButton } from '@/components/SubmitButton';
 import { roomOptions, roomThemes } from './content';
+import { toast } from '@/components/ui/use-toast';
+import ModalLimitExceeded from '@/components/dashboard/generate/ModalLimitExceeded';
 
 type FormInputProps = {
   data?: TypeInteriorDesign;
@@ -32,8 +34,29 @@ type FormFields = {
 };
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
+  const [hasLimitExceeded, setHasLimitExceeded] = useState(false);
+
   const supabase = supabaseBrowserClient();
   const router = useRouter();
+
+  //function to check the limit of content creations and set the state accordingly
+  const limitUser = useCallback(async () => {
+    const { error, count } = await supabase
+      .from('interior_designs')
+      .select('*', { count: 'exact', head: true });
+
+    if (error) {
+      return toast({ description: error.message, variant: 'destructive' });
+    }
+    if (count && count >= 5) {
+      setHasLimitExceeded(true);
+    }
+  }, [supabase]);
+
+  //checking on load if the user has reached the limit of content creations
+  useEffect(() => {
+    limitUser();
+  }, [limitUser]);
 
   //TODO change the initial data to match the data structure
   const initialData: FormFields = {
@@ -58,6 +81,12 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   // Function to initiate the design generation process by calling generateDesignFn from server actions.
   const handleGeneration = async (inputFormData: FormData) => {
+    if (hasLimitExceeded) {
+      return toast({
+        description: 'You have reached the limit of content creations. Please upgrade to continue.',
+        variant: 'destructive',
+      });
+    }
     const prompt = inputFormData.get('prompt') as string;
     const roomType = inputFormData.get('roomType') as string;
 
@@ -140,6 +169,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
 
   return (
     <div>
+      <ModalLimitExceeded isModalOpen={hasLimitExceeded} />
       <p className='text-default font-semibold mb-2'>Let’s create a room</p>
       <div className='block md:flex gap-4'>
         <div className='border p-4 rounded-lg w-full md:w-2/5 lg:w-3/12'>
@@ -219,7 +249,11 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
             </InputWrapper>
 
             {/* Generate button */}
-            <SubmitButton className='w-full' isLoading={isLoading} formAction={handleGeneration}>
+            <SubmitButton
+              className='w-full'
+              isLoading={isLoading}
+              disabled={hasLimitExceeded}
+              formAction={handleGeneration}>
               Generate Image
             </SubmitButton>
           </form>
@@ -229,6 +263,7 @@ const FormInput: FC<FormInputProps> = ({ data }) => {
         <OutputGeneration
           isLoading={isLoading}
           data={generatedData!}
+          disabled={hasLimitExceeded}
           handleRandomRoomGeneration={handleRandomRoomGeneration}
         />
       </div>
