@@ -35,7 +35,7 @@ type FormFields = {
 
 const FormInput: FC<FormInputProps> = ({ data }) => {
   const [hasLimitExceeded, setHasLimitExceeded] = useState(false);
-  
+
   const supabase = supabaseBrowserClient();
   const router = useRouter();
 
