@@ -50,7 +50,13 @@ Ensure you have the following installed:
    cd [YOUR_APP_NAME]
 
    git checkout interior-design-generator
+
+   git remote remove origin
    ```
+
+   Removing the `origin remote` ensures you can work locally without pushing changes back to the original repository.
+    
+   > - **However, note that after removing the remote, you won't be able to switch branches, so you'll need to clone the repository again if you want to work on another branch.**
 
 2. **Install dependencies:**
 
@@ -154,6 +160,10 @@ Ensure you have the following installed:
    select
    using (auth.uid () = user_id);
 
+    -- Optional: Add policy to allow users to delete their own interior_designs
+   create policy "Users can delete own row" on interior_designs
+   for delete using (auth.uid() = user_id);
+
    -- Enable Realtime
    alter publication supabase_realtime add table interior_designs;
    ```
@@ -184,6 +194,8 @@ Ensure you have the following installed:
    ```
 
    This will start the development server on `http://localhost:3000`.
+
+   > Note: To enable Google Authentication for your application, please refer to the [Supabase Setup Guide](https://docs.builderkit.ai/setup/supabase).
 
 2. **Build for production:**
 
